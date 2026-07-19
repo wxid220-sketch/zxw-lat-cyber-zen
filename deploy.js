@@ -41,16 +41,17 @@ async function deployAndResolve(domain) {
         // 强行设为主分支为 master 保证发布路径匹配
         execSync('git branch -M master', { stdio: 'inherit' });
         
-        // 1.4 清理远程冲突并创建发布仓库
-        console.log('-> 正在清理远程旧仓库 (若存在)...');
+        // 1.4 同步推送远程仓库 (若未关联或不存在则创建并推送)
+        console.log('-> 正在同步推送至 GitHub 远程仓库...');
         try {
-            execSync(`gh repo delete ${GH_USER}/${REPO_NAME} --yes`, { stdio: 'ignore' });
+            execSync('git push origin master --force', { stdio: 'inherit' });
         } catch (e) {
-            // 忽略不存在的仓库报错
+            console.log('-> 远程仓库不存在或关联异常，正在重新创建并推送...');
+            try {
+                execSync('git remote remove origin', { stdio: 'ignore' });
+            } catch (err) {}
+            execSync(`gh repo create ${REPO_NAME} --public --source=. --remote=origin --push`, { stdio: 'inherit' });
         }
-        
-        console.log('-> 正在创建全新 GitHub 远程公开仓库并推送代码...');
-        execSync(`gh repo create ${REPO_NAME} --public --source=. --remote=origin --push`, { stdio: 'inherit' });
         
         // 1.5 确保配置 GitHub Pages (双重确认)
         console.log('-> 正在向 GitHub Pages 注册域名映射与 HTTPS 配置...');

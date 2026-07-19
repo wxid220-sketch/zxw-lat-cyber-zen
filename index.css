@@ -267,8 +267,19 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    justify-content: space-between;
     margin-bottom: 1.5rem;
+}
+
+.zen-rank-badge {
+    background: linear-gradient(90deg, #bc13fe, #ff2a5f);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(188, 19, 254, 0.35);
+    font-family: var(--font-sans);
 }
 
 .status-dot {
@@ -294,6 +305,8 @@ body {
     letter-spacing: 0.1em;
     color: var(--text-secondary);
     font-family: monospace;
+    margin-right: auto;
+    margin-left: 0.5rem;
 }
 
 .merit-counter-container {
@@ -316,7 +329,7 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 4px 15px rgba(255, 215, 0, 0.25));
-    transition: transform 0.08s ease;
+    transition: transform 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* 木鱼交互区域 */
@@ -354,13 +367,9 @@ body {
     width: 200px;
     height: 200px;
     z-index: 1;
-    transition: transform 0.06s ease;
+    transition: transform 0.06s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6)) 
             drop-shadow(0 0 12px rgba(188, 19, 254, 0.15));
-}
-
-.woodfish-svg:active {
-    transform: scale(0.92);
 }
 
 .tap-hint {
@@ -382,7 +391,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* 功德飘字容器 */
+/* 功德飘字与金光粒子容器 */
 .floating-text-container {
     position: absolute;
     top: 0;
@@ -415,9 +424,206 @@ body {
         transform: translate(-50%, -20px) scale(1.15);
     }
     100% {
-        transform: translate(calc(-50% + var(--random-x, 0px)), -90px) scale(0.9);
+        transform: translate(calc(-50% + var(--random-x, 0px)), -95px) scale(0.9);
         opacity: 0;
     }
+}
+
+/* 溅射粒子样式 (特效) */
+.sparkle-particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: var(--neon-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 12;
+    box-shadow: 0 0 8px var(--neon-gold), 0 0 12px var(--neon-purple-glow);
+    animation: explode 0.75s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(0.2);
+        opacity: 0;
+    }
+}
+
+/* 互动网格 (新增/更新布局) */
+.interactive-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* 电子香炉卡片样式 */
+.incense-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.incense-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e2c0ff;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.6rem;
+}
+
+.incense-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 140px;
+    margin: 1rem 0;
+}
+
+/* 袅袅青烟 (烟雾特效) */
+.smoke-container {
+    position: absolute;
+    top: 5px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.smoke-line {
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.25) 20%, transparent 100%);
+    border-radius: 50%;
+}
+
+/* 上香点亮后，烟雾浮动 */
+.incense-card.active .smoke-container {
+    opacity: 1;
+}
+
+.incense-card.active .line-1 { animation: driftSmoke 3s ease-in-out infinite; }
+.incense-card.active .line-2 { animation: driftSmoke 2.5s ease-in-out infinite 0.4s; }
+.incense-card.active .line-3 { animation: driftSmoke 3.5s ease-in-out infinite 0.8s; }
+
+@keyframes driftSmoke {
+    0% {
+        transform: translateY(10px) translateX(0) scaleY(0.7);
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.6;
+        transform: translateY(-10px) translateX(-5px) scaleY(1.1);
+    }
+    60% {
+        transform: translateY(-30px) translateX(5px) scaleY(0.9);
+    }
+    100% {
+        transform: translateY(-55px) translateX(-2px) scaleY(0.6);
+        opacity: 0;
+    }
+}
+
+/* 三支清香 */
+.incense-sticks {
+    display: flex;
+    gap: 12px;
+    position: absolute;
+    bottom: 30px;
+    z-index: 2;
+}
+
+.stick {
+    width: 3px;
+    height: 70px;
+    background: #c2957b;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    transition: height 3s ease;
+}
+
+.stick-tip {
+    position: absolute;
+    top: -3px;
+    left: -1px;
+    width: 5px;
+    height: 5px;
+    background-color: #5d4a3e;
+    border-radius: 50%;
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* 上香激活后香头亮起呼吸 */
+.incense-card.active .stick-tip {
+    background-color: #ff3d00;
+    box-shadow: 0 0 10px #ff3d00, 0 0 15px #ff9100;
+    animation: tipGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes tipGlow {
+    from { opacity: 0.7; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1.2); }
+}
+
+/* 香被燃尽缩短效果 */
+.incense-card.active .stick {
+    height: 40px;
+}
+
+/* 炉身 */
+.burner {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+}
+
+.burner-brim {
+    width: 76px;
+    height: 6px;
+    background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
+    border-radius: 3px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+
+.burner-body {
+    width: 66px;
+    height: 36px;
+    background: linear-gradient(135deg, #1b1626, #2d233c);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 0 0 16px 16px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.incense-status {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    padding-top: 0.6rem;
+    font-family: monospace;
 }
 
 /* 终端卡片 (Terminal Card) */
@@ -502,7 +708,6 @@ body {
     z-index: 1;
 }
 
-/* 渐变流动底色 */
 .btn-douyin::before {
     content: '';
     position: absolute;
@@ -576,6 +781,10 @@ body {
         max-width: 500px;
         margin: 0 auto;
         width: 100%;
+    }
+    
+    .interactive-grid {
+        grid-template-columns: 1fr;
     }
     
     .user-title {

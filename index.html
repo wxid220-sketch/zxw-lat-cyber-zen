@@ -61,6 +61,8 @@
                 <div class="card-header">
                     <div class="status-dot pulsing"></div>
                     <span class="status-text">SYSTEM LOAD: PEACEFUL</span>
+                    <!-- 动态身份段位标签 -->
+                    <div class="zen-rank-badge" id="zen-rank">尘世散修</div>
                 </div>
 
                 <div class="merit-counter-container">
@@ -71,10 +73,10 @@
                 <!-- 木鱼敲击区域 -->
                 <div class="woodfish-area" id="woodfish-btn">
                     <div class="woodfish-glow"></div>
+                    <!-- 浮动飘字及溅射粒子容器 -->
                     <div class="floating-text-container" id="floating-container"></div>
                     <!-- 木鱼 SVG 矢量图 -->
                     <svg class="woodfish-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 木鱼主体 -->
                         <path d="M 50,15 
                                  C 25,15 15,30 15,55 
                                  C 15,75 32,85 50,85 
@@ -83,16 +85,11 @@
                               fill="url(#woodfish-gradient)" 
                               stroke="#ff2a5f" 
                               stroke-width="1.5" />
-                        <!-- 木鱼头部及花纹 -->
                         <path d="M 32,35 C 42,30 58,30 68,35" fill="none" stroke="#bc13fe" stroke-width="2" stroke-linecap="round" />
-                        <!-- 木鱼中心的圆孔与开口结构 -->
                         <path d="M 22,58 C 30,50 40,48 50,48 C 60,48 70,50 78,58" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round" />
-                        <!-- 侧边云纹细节 -->
                         <circle cx="35" cy="65" r="3" fill="#bc13fe" opacity="0.8" />
                         <circle cx="65" cy="65" r="3" fill="#bc13fe" opacity="0.8" />
                         <path d="M 45,75 C 47,72 53,72 55,75" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round" />
-                        
-                        <!-- 渐变定义 -->
                         <defs>
                             <radialGradient id="woodfish-gradient" cx="50%" cy="40%" r="50%" fx="30%" fy="30%">
                                 <stop offset="0%" stop-color="#2a1f3d" />
@@ -105,32 +102,62 @@
                 </div>
             </div>
 
-            <!-- 抖音入口与信息卡片 -->
-            <div class="glass-card terminal-card">
-                <div class="terminal-header">
-                    <div class="window-dot red"></div>
-                    <div class="window-dot yellow"></div>
-                    <div class="window-dot green"></div>
-                    <span class="terminal-title">zxw@cyber-zen:~</span>
+            <!-- 下方互动二合一：电子香炉 & 社交终端 -->
+            <div class="interactive-grid">
+                <!-- 电子香炉卡片 (新增互动组件) -->
+                <div class="glass-card incense-card" id="incense-pot">
+                    <div class="incense-header">
+                        <span class="card-icon">🏮</span>
+                        <span class="incense-title">赛博香炉 (点击敬香)</span>
+                    </div>
+                    <div class="incense-body">
+                        <!-- 袅袅青烟 -->
+                        <div class="smoke-container">
+                            <div class="smoke-line line-1"></div>
+                            <div class="smoke-line line-2"></div>
+                            <div class="smoke-line line-3"></div>
+                        </div>
+                        <!-- 三支清香 -->
+                        <div class="incense-sticks">
+                            <div class="stick stick-1"><div class="stick-tip"></div></div>
+                            <div class="stick stick-2"><div class="stick-tip"></div></div>
+                            <div class="stick stick-3"><div class="stick-tip"></div></div>
+                        </div>
+                        <!-- 香炉炉身 -->
+                        <div class="burner">
+                            <div class="burner-brim"></div>
+                            <div class="burner-body"></div>
+                        </div>
+                    </div>
+                    <div class="incense-status" id="incense-hint">敬香一炷：心平气和，功德翻倍中</div>
                 </div>
-                <div class="terminal-body">
-                    <p class="term-line"><span class="term-prompt">$</span> cat info.txt</p>
-                    <p class="term-output">NICKNAME: 菠萝吹雪</p>
-                    <p class="term-output">LOCATION: 赛博净土大雄宝殿</p>
-                    <p class="term-output">HOBBY: 烧香拜佛, 积累功德, 享受当下</p>
-                    <p class="term-line"><span class="term-prompt">$</span> check --status</p>
-                    <p class="term-output text-success">✔ 身体健康. 烦恼已超度. 财运爆发中...</p>
-                    
-                    <!-- 抖音链接按钮 -->
-                    <a href="https://www.douyin.com/user/MS4wLjABAAAAS2Da8JoiuY9C37Lt2J291z_Tq6Aw5gjh81apmEqzlpU?from_tab_name=main" 
-                       target="_blank" 
-                       class="btn-douyin">
-                        <span class="btn-text">直达我的抖音主页</span>
-                        <svg class="icon-douyin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.07-2.88-.54-4.05-1.4-1.17-.86-1.95-2.18-2.23-3.61-.03-.15-.05-.3-.08-.45-.01.07-.01.14-.01.2v11.16c-.01 2.36-.93 4.67-2.65 6.29-1.72 1.62-4.14 2.47-6.49 2.37-2.35-.1-4.6-1.22-6.07-3.06-1.47-1.84-2.07-4.29-1.7-6.62.37-2.33 1.75-4.42 3.79-5.61 2.04-1.19 4.6-1.44 6.84-.71v4.2c-1.24-.48-2.66-.4-3.83.21-1.17.61-1.98 1.83-2.19 3.15-.21 1.32.22 2.71 1.13 3.68.91.97 2.27 1.45 3.59 1.3 1.32-.15 2.5-1.01 2.99-2.25.49-1.24.47-2.67.47-3.99V.02h4.37z" 
-                                  fill="currentColor"/>
-                        </svg>
-                    </a>
+
+                <!-- 抖音入口与信息卡片 -->
+                <div class="glass-card terminal-card">
+                    <div class="terminal-header">
+                        <div class="window-dot red"></div>
+                        <div class="window-dot yellow"></div>
+                        <div class="window-dot green"></div>
+                        <span class="terminal-title">zxw@cyber-zen:~</span>
+                    </div>
+                    <div class="terminal-body">
+                        <p class="term-line"><span class="term-prompt">$</span> cat info.txt</p>
+                        <p class="term-output">NICKNAME: 菠萝吹雪</p>
+                        <p class="term-output">LOCATION: 赛博净土大雄宝殿</p>
+                        <p class="term-output">HOBBY: 烧香拜佛, 积累功德, 享受当下</p>
+                        <p class="term-line"><span class="term-prompt">$</span> check --status</p>
+                        <p class="term-output text-success">✔ 身体健康. 烦恼已超度. 财运爆发中...</p>
+                        
+                        <a href="https://www.douyin.com/user/MS4wLjABAAAAS2Da8JoiuY9C37Lt2J291z_Tq6Aw5gjh81apmEqzlpU?from_tab_name=main" 
+                           target="_blank" 
+                           class="btn-douyin">
+                            <span class="btn-text">直达我的抖音主页</span>
+                            <svg class="icon-douyin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.07-2.88-.54-4.05-1.4-1.17-.86-1.95-2.18-2.23-3.61-.03-.15-.05-.3-.08-.45-.01.07-.01.14-.01.2v11.16c-.01 2.36-.93 4.67-2.65 6.29-1.72 1.62-4.14 2.47-6.49 2.37-2.35-.1-4.6-1.22-6.07-3.06-1.47-1.84-2.07-4.29-1.7-6.62.37-2.33 1.75-4.42 3.79-5.61 2.04-1.19 4.6-1.44 6.84-.71v4.2c-1.24-.48-2.66-.4-3.83.21-1.17.61-1.98 1.83-2.19 3.15-.21 1.32.22 2.71 1.13 3.68.91.97 2.27 1.45 3.59 1.3 1.32-.15 2.5-1.01 2.99-2.25.49-1.24.47-2.67.47-3.99V.02h4.37z" 
+                                      fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>

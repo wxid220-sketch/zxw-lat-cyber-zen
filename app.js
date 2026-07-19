@@ -422,3 +422,71 @@ window.addEventListener('keydown', (e) => {
         triggerWoodfish();
     }
 });
+
+// --- 交互式相册轮播逻辑 (Carousel) ---
+const slides = document.querySelectorAll('.carousel-slide');
+const indicators = document.querySelectorAll('.indicator');
+const prevBtn = document.getElementById('carousel-prev-btn');
+const nextBtn = document.getElementById('carousel-next-btn');
+let currentSlideIndex = 0;
+let carouselTimer = null;
+
+function showSlide(index) {
+    if (index >= slides.length) index = 0;
+    if (index < 0) index = slides.length - 1;
+    
+    currentSlideIndex = index;
+    
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
+    });
+    
+    indicators.forEach((indicator, i) => {
+        if (i === index) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+}
+
+function nextSlide() {
+    showSlide(currentSlideIndex + 1);
+}
+
+function prevSlide() {
+    showSlide(currentSlideIndex - 1);
+}
+
+function resetCarouselTimer() {
+    clearInterval(carouselTimer);
+    carouselTimer = setInterval(nextSlide, 8000); // 8秒自动轮播
+}
+
+if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevSlide();
+        resetCarouselTimer();
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextSlide();
+        resetCarouselTimer();
+    });
+}
+
+indicators.forEach((indicator, idx) => {
+    indicator.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showSlide(idx);
+        resetCarouselTimer();
+    });
+});
+
+resetCarouselTimer();

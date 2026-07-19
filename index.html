@@ -11,12 +11,12 @@
     <meta property="og:url" content="https://zxw.lat/">
     <meta property="og:title" content="ZXW.LAT | 赛博禅境">
     <meta property="og:description" content="在上班和上进之间，我选择了上香；在求人和求己之间，我选择了求佛。来电子功德林，在线敲木鱼超度一切烦恼。">
-    <meta property="og:image" content="https://zxw.lat/hero.jpg">
+    <meta property="og:image" content="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo1.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://zxw.lat/">
     <meta name="twitter:title" content="ZXW.LAT | 赛博禅境">
     <meta name="twitter:description" content="在上班和上进之间，我选择了上香；在求人和求己之间，我选择了求佛。">
-    <meta name="twitter:image" content="https://zxw.lat/hero.jpg">
+    <meta name="twitter:image" content="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo1.jpg">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,10 +38,32 @@
         <!-- 左侧：氛围主角区 -->
         <section class="profile-section">
             <div class="glass-card profile-card">
-                <div class="image-wrapper">
-                    <img src="hero.jpg" alt="ZXW 赛博上香" class="hero-image">
+                <!-- 交互式相册轮播区 -->
+                <div class="image-wrapper" id="carousel-wrapper">
+                    <div class="carousel-slides">
+                        <div class="carousel-slide active" data-index="0">
+                            <img src="photo1.jpg" alt="花海躺平" class="hero-image">
+                        </div>
+                        <div class="carousel-slide" data-index="1">
+                            <img src="photo2.jpg" alt="菠萝吹雪自拍" class="hero-image">
+                        </div>
+                        <div class="carousel-slide" data-index="2">
+                            <img src="photo3.jpg" alt="高冷猫咪" class="hero-image">
+                        </div>
+                    </div>
                     <div class="image-overlay"></div>
                     <div class="badge neon-badge">ZEN MEMBER</div>
+                    
+                    <!-- 轮播控制键 -->
+                    <button class="carousel-btn prev-btn" id="carousel-prev-btn" aria-label="上一张">&lt;</button>
+                    <button class="carousel-btn next-btn" id="carousel-next-btn" aria-label="下一张">&gt;</button>
+                    
+                    <!-- 指示器 -->
+                    <div class="carousel-indicators">
+                        <span class="indicator active" data-index="0"></span>
+                        <span class="indicator" data-index="1"></span>
+                        <span class="indicator" data-index="2"></span>
+                    </div>
                 </div>
                 <div class="profile-details">
                     <h1 class="user-title">菠萝吹雪</h1>

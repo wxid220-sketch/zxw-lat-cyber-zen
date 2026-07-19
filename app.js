@@ -1,6 +1,6 @@
 // 赛博木鱼交互、音效合成与高阶特效逻辑
 
-// 功德增加词库 (金色/绿色/橙色)
+// 功德增加词库 (金色/绿色/橙色，融入更丰富的顶级祝福词)
 const POSITIVE_PHRASES = [
     { text: '功德 +1', color: '#ffd700' },
     { text: '福报 +1', color: '#00e676' },
@@ -8,10 +8,18 @@ const POSITIVE_PHRASES = [
     { text: '智商 +1', color: '#00b0ff' },
     { text: '桃花 +99', color: '#ff4081' },
     { text: '头发 +10', color: '#a1a1a1' },
-    { text: '快乐 +1', color: '#ffeb3b' }
+    { text: '快乐 +1', color: '#ffeb3b' },
+    { text: '升职加薪 +1', color: '#ff9100' },
+    { text: '逢考必过 +1', color: '#00b0ff' },
+    { text: '万事如意 +1', color: '#ffd700' },
+    { text: '心想事成 +1', color: '#ff4081' },
+    { text: '健康无忧 +1', color: '#00e676' },
+    { text: '逆天改命 +99', color: '#ffd700' },
+    { text: '好运连连 +1', color: '#ffeb3b' },
+    { text: '功德圆满 +1', color: '#ffd700' }
 ];
 
-// 烦恼递减词库 (红色/粉红，用户期待的有趣的 -1 减量符号)
+// 烦恼递减词库 (红色/粉红，带有有趣的 -1 减量符号)
 const NEGATIVE_PHRASES = [
     { text: '压力 -1', color: '#ff2a5f' },
     { text: '烦恼 -1', color: '#ff2a5f' },
@@ -20,7 +28,9 @@ const NEGATIVE_PHRASES = [
     { text: '水逆 -1', color: '#ff5f56' },
     { text: '脂肪 -1', color: '#00e676' },
     { text: '疲惫 -1', color: '#ff2a5f' },
-    { text: '穷气 -1', color: '#ffd700' }
+    { text: '穷气 -1', color: '#ffd700' },
+    { text: '脱发 -1', color: '#a1a1a1' },
+    { text: '熬夜 -1', color: '#ff2a5f' }
 ];
 
 // 功德等级配置

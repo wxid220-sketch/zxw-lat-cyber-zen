@@ -287,50 +287,50 @@
   "videos": [
     {
       "id": "passion-1",
-      "src": "assets/video/passion-1.mp4",
-      "thumb": "assets/video/passion-1-thumb.webp",
+      "src": "assets/clips/passion-1.mp4",
+      "thumb": "assets/clips/passion-1-thumb.webp",
       "duration": "00:39"
     },
     {
       "id": "passion-2",
-      "src": "assets/video/passion-2.mp4",
-      "thumb": "assets/video/passion-2-thumb.webp",
+      "src": "assets/clips/passion-2.mp4",
+      "thumb": "assets/clips/passion-2-thumb.webp",
       "duration": "00:39"
     },
     {
       "id": "passion-3",
-      "src": "assets/video/passion-3.mp4",
-      "thumb": "assets/video/passion-3-thumb.webp",
+      "src": "assets/clips/passion-3.mp4",
+      "thumb": "assets/clips/passion-3-thumb.webp",
       "duration": "00:20"
     },
     {
       "id": "passion-4",
-      "src": "assets/video/passion-4.mp4",
-      "thumb": "assets/video/passion-4-thumb.webp",
+      "src": "assets/clips/passion-4.mp4",
+      "thumb": "assets/clips/passion-4-thumb.webp",
       "duration": "01:06"
     },
     {
       "id": "passion-5",
-      "src": "assets/video/passion-5.mp4",
-      "thumb": "assets/video/passion-5-thumb.webp",
+      "src": "assets/clips/passion-5.mp4",
+      "thumb": "assets/clips/passion-5-thumb.webp",
       "duration": "00:46"
     },
     {
       "id": "passion-6",
-      "src": "assets/video/passion-6.mp4",
-      "thumb": "assets/video/passion-6-thumb.webp",
+      "src": "assets/clips/passion-6.mp4",
+      "thumb": "assets/clips/passion-6-thumb.webp",
       "duration": "00:24"
     },
     {
       "id": "passion-7",
-      "src": "assets/video/passion-7.mp4",
-      "thumb": "assets/video/passion-7-thumb.webp",
+      "src": "assets/clips/passion-7.mp4",
+      "thumb": "assets/clips/passion-7-thumb.webp",
       "duration": "00:24"
     },
     {
       "id": "passion-8",
-      "src": "assets/video/passion-8.mp4",
-      "thumb": "assets/video/passion-8-thumb.webp",
+      "src": "assets/clips/passion-8.mp4",
+      "thumb": "assets/clips/passion-8-thumb.webp",
       "duration": "00:26"
     }
   ]

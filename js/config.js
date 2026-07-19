@@ -114,14 +114,14 @@ const CONFIG = {
 
   /* ---- 热爱板块：3D 旋转视频墙 ---- */
   passionVideos: [
-    { id: 'passion-1', title: '热爱时刻 Ⅰ', src: 'assets/video/passion-1.mp4', thumb: 'assets/video/passion-1-thumb.webp', duration: '00:39', description: '' },
-    { id: 'passion-2', title: '热爱时刻 Ⅱ', src: 'assets/video/passion-2.mp4', thumb: 'assets/video/passion-2-thumb.webp', duration: '00:39', description: '' },
-    { id: 'passion-3', title: '热爱时刻 Ⅲ', src: 'assets/video/passion-3.mp4', thumb: 'assets/video/passion-3-thumb.webp', duration: '00:20', description: '' },
-    { id: 'passion-4', title: '热爱时刻 Ⅳ', src: 'assets/video/passion-4.mp4', thumb: 'assets/video/passion-4-thumb.webp', duration: '01:06', description: '' },
-    { id: 'passion-5', title: '热爱时刻 Ⅴ', src: 'assets/video/passion-5.mp4', thumb: 'assets/video/passion-5-thumb.webp', duration: '00:46', description: '' },
-    { id: 'passion-6', title: '热爱时刻 Ⅵ', src: 'assets/video/passion-6.mp4', thumb: 'assets/video/passion-6-thumb.webp', duration: '00:24', description: '' },
-    { id: 'passion-7', title: '热爱时刻 Ⅶ', src: 'assets/video/passion-7.mp4', thumb: 'assets/video/passion-7-thumb.webp', duration: '00:24', description: '' },
-    { id: 'passion-8', title: '热爱时刻 Ⅷ', src: 'assets/video/passion-8.mp4', thumb: 'assets/video/passion-8-thumb.webp', duration: '00:26', description: '' }
+    { id: 'passion-1', title: '热爱时刻 Ⅰ', src: 'assets/clips/passion-1.mp4', thumb: 'assets/clips/passion-1-thumb.webp', duration: '00:39', description: '' },
+    { id: 'passion-2', title: '热爱时刻 Ⅱ', src: 'assets/clips/passion-2.mp4', thumb: 'assets/clips/passion-2-thumb.webp', duration: '00:39', description: '' },
+    { id: 'passion-3', title: '热爱时刻 Ⅲ', src: 'assets/clips/passion-3.mp4', thumb: 'assets/clips/passion-3-thumb.webp', duration: '00:20', description: '' },
+    { id: 'passion-4', title: '热爱时刻 Ⅳ', src: 'assets/clips/passion-4.mp4', thumb: 'assets/clips/passion-4-thumb.webp', duration: '01:06', description: '' },
+    { id: 'passion-5', title: '热爱时刻 Ⅴ', src: 'assets/clips/passion-5.mp4', thumb: 'assets/clips/passion-5-thumb.webp', duration: '00:46', description: '' },
+    { id: 'passion-6', title: '热爱时刻 Ⅵ', src: 'assets/clips/passion-6.mp4', thumb: 'assets/clips/passion-6-thumb.webp', duration: '00:24', description: '' },
+    { id: 'passion-7', title: '热爱时刻 Ⅶ', src: 'assets/clips/passion-7.mp4', thumb: 'assets/clips/passion-7-thumb.webp', duration: '00:24', description: '' },
+    { id: 'passion-8', title: '热爱时刻 Ⅷ', src: 'assets/clips/passion-8.mp4', thumb: 'assets/clips/passion-8-thumb.webp', duration: '00:26', description: '' }
   ],
 
   /* ---- 关于我 — 爱好档案（五大模块，终端风格） ---- */

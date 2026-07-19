@@ -966,6 +966,16 @@ body.custom-cursor, body.custom-cursor * { cursor: none; }
 }
 #viz-ring.on { opacity: 1; }
 
+/* ---- 云端同步状态点：青色=云端已同步 / 灰色=本地模式 ---- */
+.sync-dot {
+  font-size: 11px; font-family: var(--mono); letter-spacing: 0.05em;
+  padding: 3px 12px; border-radius: 12px; white-space: nowrap;
+  border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.03);
+  transition: all 0.4s var(--ease); cursor: default;
+}
+.sync-dot.ok { color: var(--cyan); border-color: rgba(0, 212, 255, 0.35); box-shadow: 0 0 12px rgba(0, 212, 255, 0.15); }
+.sync-dot.off { color: rgba(255, 255, 255, 0.4); }
+
 /* ================================ 响应式 ================================ */
 @media (max-width: 1024px) {
   .masonry { columns: 2 240px; }

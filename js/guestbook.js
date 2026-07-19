@@ -16,6 +16,16 @@ const Guestbook = {
     this.msgs = Utils.get('messages', []);
     this._bind();
     this.render();
+    this._syncFromCloud();   // 拉取全球留言（失败静默降级本地模式）
+  },
+
+  /* ---- 云端合并：按 id 去重 + 时间倒序 + 重渲染 ---- */
+  async _syncFromCloud() {
+    const merged = await Cloud.syncDown('messages', this.msgs);
+    if (merged === this.msgs) return;       // 云端不可达，保持本地
+    this.msgs = merged;
+    Utils.set('messages', merged);          // 合并结果回写本地，离线也能看到
+    this.render();
   },
 
   _bind() {
@@ -69,6 +79,7 @@ const Guestbook = {
       }
       this.msgs.unshift(msg);
       Utils.set('messages', this.msgs);
+      Cloud.push('messages', msg);          // 云端共享（失败静默降级本地）
       input.value = '';
       this.render();
       Utils.toast(isPrivate ? '加密留言已发送 🔒' : '留言已发送 ✨');

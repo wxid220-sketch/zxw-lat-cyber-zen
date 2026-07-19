@@ -274,8 +274,11 @@
           <button class="back-btn">← 返回主页</button>
         </div>
         <div id="starmap-stage"></div>
-        <div class="starmap-stats" id="starmap-stats"></div>
-        <p class="starmap-tip">坐标已模糊化到 100m 范围 · 数据仅存本机（配置 Supabase 后可云端同步） · 清除浏览器数据可抹除足迹</p>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div class="starmap-stats" id="starmap-stats"></div>
+          <span class="sync-dot off">● 连接云端中…</span>
+        </div>
+        <p class="starmap-tip">坐标已模糊化到 100m 范围 · 足迹通过免 Key 云端全球共享（公共存储，请勿留敏感信息） · 清除浏览器数据可抹除本地副本</p>
       </div>
     </main>
 
@@ -293,6 +296,7 @@
             <span class="dot" style="background:#FFD700"></span>
             <span class="dot" style="background:#00FF88"></span>
             <span style="margin-left:8px">visitor@star-guest:~ — zxw.lat guestbook</span>
+            <span class="sync-dot off" style="margin-left:auto">● 连接云端中…</span>
           </div>
           <div class="msg-filter">
             <button data-filter="all" class="on">全部</button>
@@ -470,6 +474,7 @@
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" defer></script>
   <script src="js/config.js" defer></script>
   <script src="js/utils.js" defer></script>
+  <script src="js/cloud.js" defer></script>
   <script src="js/particles.js" defer></script>
   <script src="js/audio.js" defer></script>
   <script src="js/effects.js" defer></script>

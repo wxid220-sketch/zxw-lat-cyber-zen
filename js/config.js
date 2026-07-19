@@ -237,11 +237,15 @@ const CONFIG = {
    * 完全免 API Key，无需任何配置；Leaflet 走 CDN（见 index.html），
    * CDN 加载失败（超时 8 秒）自动降级为内置 Canvas 2D 星图兜底。 */
 
-  /* Supabase（足迹 / 留言的云端同步）。
-   * 未配置时：足迹与留言仅保存在本机 localStorage，全部功能可正常使用。 */
-  supabase: {
-    url: '',          // ← 填入 Supabase Project URL
-    anonKey: ''       // ← 填入 anon public key
+  /* ==================== 云端共享存储（jsonblob，完全免 Key） ====================
+   * 星空足迹 / 星际留言的全球共享由 jsonblob.com 公共 bin 提供，无需任何账号。
+   * ⚠️ 公共存储：任何访客可读写，请勿写入敏感信息；所有内容渲染前已做 XSS
+   * 过滤，坐标已模糊化到 100m，留言需过敏感词 + PoW 防灌水。
+   * 云端不可达时自动降级为纯本地模式，功能不受影响（见 js/cloud.js）。 */
+  cloud: {
+    provider: 'jsonblob',
+    binId: '019f7c81-30e6-7ed9-b489-9c8281b9836f',
+    enabled: true
   },
 
   /* 星空足迹：Leaflet + CARTO 暗黑底图（© OpenStreetMap © CARTO），免 Key。

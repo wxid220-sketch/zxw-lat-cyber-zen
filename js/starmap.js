@@ -18,7 +18,23 @@ const Starmap = {
   init() {
     if (this.inited) return; this.inited = true;
     this.stars = Utils.get('footprints', []);
+    this._markers = [];
     this._waitLeaflet(Date.now());
+    this._syncFromCloud();   // 拉取全球足迹（失败静默降级本地模式）
+  },
+
+  /* ---- 云端合并：按 id 去重 + 时间排序 + 重渲染 ---- */
+  async _syncFromCloud() {
+    const merged = await Cloud.syncDown('footprints', this.stars);
+    if (merged === this.stars) return;      // 云端不可达，保持本地
+    this.stars = merged;
+    Utils.set('footprints', merged);        // 合并结果回写本地，离线也能看到
+    if (this._map) {
+      this._markers.forEach(m => this._map.removeLayer(m));
+      this._markers = [];
+      this.stars.forEach(st => this._addMarker(st));
+    }
+    this._renderStats();
   },
 
   /* ---- 等待 Leaflet 就绪；超时 8 秒降级 Canvas 2D 星图 ---- */
@@ -108,6 +124,7 @@ const Starmap = {
       popupAnchor: [0, -size / 2]
     });
     const marker = L.marker([st.lat, st.lng], { icon, keyboard: false }).addTo(this._map);
+    this._markers.push(marker);
     /* 点击星星 → 暗色 Glassmorphism popup 展示留言 */
     const who = Utils.sanitize(st.nickname || '某位修行者');
     const msg = st.message ? Utils.sanitize(st.message) : '（没有留言，只留下了一束光）';
@@ -216,9 +233,13 @@ const Starmap = {
       const nick = document.getElementById('star-nick').value.trim().slice(0, 20);
       const msg = document.getElementById('star-msg').value.trim().slice(0, 100);
       if (Utils.hasBannedWords(nick + msg)) { Utils.toast('内容包含敏感词'); return; }
-      const st = { lng, lat, nickname: nick, message: msg, timestamp: Date.now() };
+      const st = {
+        id: 'f' + Date.now().toString(36) + Math.random().toString(16).slice(2, 6),
+        lng, lat, nickname: nick, message: msg, timestamp: Date.now()
+      };
       this.stars.push(st);
       Utils.set('footprints', this.stars);
+      Cloud.push('footprints', st);         // 云端共享（失败静默降级本地）
       if (this._map) this._addMarker(st);   // Canvas 模式由绘制循环自动呈现
       Utils.closePanel(mask);
       Utils.toast('星星已点亮 ✨', '你在这片星空留下了足迹');
@@ -234,6 +255,7 @@ const Starmap = {
     if (!navigator.geolocation || Utils.get('footprintLocated', false)) return;
     navigator.geolocation.getCurrentPosition(p => {
       const st = {
+        id: 'f' + Date.now().toString(36) + Math.random().toString(16).slice(2, 6),
         lng: Utils.fuzzCoord(p.coords.longitude),
         lat: Utils.fuzzCoord(p.coords.latitude),
         nickname: localStorage.getItem('user') || '',
@@ -242,6 +264,7 @@ const Starmap = {
       this.stars.push(st);
       Utils.set('footprints', this.stars);
       Utils.set('footprintLocated', true);
+      Cloud.push('footprints', st);         // 云端共享（失败静默降级本地）
       if (this._map) this._addMarker(st);
       this._renderStats();
     }, () => {}, { timeout: 4000 });

@@ -50,7 +50,7 @@ async function deployAndResolve(domain) {
         }
         
         console.log('-> 正在创建全新 GitHub 远程公开仓库并推送代码...');
-        execSync(`gh repo create ${REPO_NAME} --public --source=. --remote=origin --push --yes`, { stdio: 'inherit' });
+        execSync(`gh repo create ${REPO_NAME} --public --source=. --remote=origin --push`, { stdio: 'inherit' });
         
         // 1.5 确保配置 GitHub Pages (双重确认)
         console.log('-> 正在向 GitHub Pages 注册域名映射与 HTTPS 配置...');

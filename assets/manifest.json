@@ -1,0 +1,337 @@
+{
+  "hero": {
+    "webp": "assets/img/hero.webp",
+    "small": "assets/img/hero-960.webp"
+  },
+  "album": [
+    "assets/img/album-1.webp",
+    "assets/img/album-2.webp",
+    "assets/img/album-3.webp"
+  ],
+  "gallery": [
+    {
+      "src": "assets/img/gallery-01.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-02.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-03.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-04.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-05.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-06.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-07.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-08.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-09.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-10.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-11.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-12.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-13.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-14.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-15.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-16.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-17.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-18.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-19.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-20.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-21.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-22.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-23.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-24.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-25.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-26.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-27.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-28.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-29.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-30.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-31.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-32.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-33.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-34.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-35.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-36.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-37.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-38.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-39.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-40.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-41.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-42.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-43.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-44.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-45.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-46.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-47.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-48.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-49.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-50.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-51.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-52.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-53.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-54.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-55.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-56.webp",
+      "date": "2026年7月"
+    },
+    {
+      "src": "assets/img/gallery-57.webp",
+      "date": "2026年7月"
+    }
+  ],
+  "login": {
+    "bg": "assets/img/login_bg.webp",
+    "transition": "assets/img/login_transition.webp",
+    "particle": "assets/img/login_particle.webp",
+    "avatar": "assets/img/login_avatar.webp"
+  },
+  "hobbies": {
+    "reading": "assets/img/hobby-reading.webp",
+    "travel": "assets/img/hobby-travel.webp",
+    "tennis": "assets/img/hobby-tennis.webp",
+    "social": "assets/img/hobby-social.webp",
+    "music": "assets/img/hobby-music.webp"
+  },
+  "audio": {
+    "main": "assets/audio/bgm-main.mp3",
+    "alt": "assets/audio/bgm-alt.mp3",
+    "tracks": [
+      {
+        "name": "山丘",
+        "src": "assets/audio/track-1.mp3"
+      },
+      {
+        "name": "海阔天空",
+        "src": "assets/audio/track-2.mp3"
+      },
+      {
+        "name": "人间",
+        "src": "assets/audio/track-3.mp3"
+      },
+      {
+        "name": "夜巴黎",
+        "src": "assets/audio/track-4.mp3"
+      }
+    ],
+    "sfx": {
+      "click": "assets/audio/sfx-click.mp3",
+      "woodfish": "assets/audio/sfx-woodfish.mp3",
+      "incense": "assets/audio/sfx-incense.mp3",
+      "levelup": "assets/audio/sfx-levelup.mp3",
+      "peach": "assets/audio/sfx-peach.mp3",
+      "login": "assets/audio/sfx-login.mp3",
+      "transition": "assets/audio/sfx-transition.mp3",
+      "bell": "assets/audio/sfx-bell.mp3"
+    },
+    "pure": "assets/audio/pure-zen.mp3"
+  },
+  "videos": [
+    {
+      "id": "passion-1",
+      "src": "assets/video/passion-1.mp4",
+      "thumb": "assets/video/passion-1-thumb.webp",
+      "duration": "00:39"
+    },
+    {
+      "id": "passion-2",
+      "src": "assets/video/passion-2.mp4",
+      "thumb": "assets/video/passion-2-thumb.webp",
+      "duration": "00:39"
+    },
+    {
+      "id": "passion-3",
+      "src": "assets/video/passion-3.mp4",
+      "thumb": "assets/video/passion-3-thumb.webp",
+      "duration": "00:20"
+    },
+    {
+      "id": "passion-4",
+      "src": "assets/video/passion-4.mp4",
+      "thumb": "assets/video/passion-4-thumb.webp",
+      "duration": "01:06"
+    },
+    {
+      "id": "passion-5",
+      "src": "assets/video/passion-5.mp4",
+      "thumb": "assets/video/passion-5-thumb.webp",
+      "duration": "00:46"
+    },
+    {
+      "id": "passion-6",
+      "src": "assets/video/passion-6.mp4",
+      "thumb": "assets/video/passion-6-thumb.webp",
+      "duration": "00:24"
+    },
+    {
+      "id": "passion-7",
+      "src": "assets/video/passion-7.mp4",
+      "thumb": "assets/video/passion-7-thumb.webp",
+      "duration": "00:24"
+    },
+    {
+      "id": "passion-8",
+      "src": "assets/video/passion-8.mp4",
+      "thumb": "assets/video/passion-8-thumb.webp",
+      "duration": "00:26"
+    }
+  ]
+}

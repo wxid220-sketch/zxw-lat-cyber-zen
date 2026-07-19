@@ -1,0 +1,58 @@
+[
+ {
+  "id": "passion-1",
+  "src": "assets/video/passion-1.mp4",
+  "thumb": "assets/video/passion-1-thumb.webp",
+  "duration": "00:39",
+  "orig": "1280x720"
+ },
+ {
+  "id": "passion-2",
+  "src": "assets/video/passion-2.mp4",
+  "thumb": "assets/video/passion-2-thumb.webp",
+  "duration": "00:39",
+  "orig": "960x540"
+ },
+ {
+  "id": "passion-3",
+  "src": "assets/video/passion-3.mp4",
+  "thumb": "assets/video/passion-3-thumb.webp",
+  "duration": "00:20",
+  "orig": "1280x720"
+ },
+ {
+  "id": "passion-4",
+  "src": "assets/video/passion-4.mp4",
+  "thumb": "assets/video/passion-4-thumb.webp",
+  "duration": "01:06",
+  "orig": "1280x720"
+ },
+ {
+  "id": "passion-5",
+  "src": "assets/video/passion-5.mp4",
+  "thumb": "assets/video/passion-5-thumb.webp",
+  "duration": "00:46",
+  "orig": "1280x720"
+ },
+ {
+  "id": "passion-6",
+  "src": "assets/video/passion-6.mp4",
+  "thumb": "assets/video/passion-6-thumb.webp",
+  "duration": "00:24",
+  "orig": "1280x720"
+ },
+ {
+  "id": "passion-7",
+  "src": "assets/video/passion-7.mp4",
+  "thumb": "assets/video/passion-7-thumb.webp",
+  "duration": "00:24",
+  "orig": "1280x720"
+ },
+ {
+  "id": "passion-8",
+  "src": "assets/video/passion-8.mp4",
+  "thumb": "assets/video/passion-8-thumb.webp",
+  "duration": "00:26",
+  "orig": "1280x720"
+ }
+]

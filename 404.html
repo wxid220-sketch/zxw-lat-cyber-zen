@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 | ZXW.LAT 赛博禅境</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000; color: #E0E6ED; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      letter-spacing: 0.1em; text-align: center; overflow: hidden;
+    }
+    .zen { position: relative; z-index: 2; padding: 24px; }
+    .zen .icon { font-size: 72px; animation: breathe 3s ease-in-out infinite; }
+    @keyframes breathe {
+      0%,100% { filter: drop-shadow(0 0 12px rgba(0,212,255,0.3)); }
+      50% { filter: drop-shadow(0 0 30px rgba(0,212,255,0.7)); }
+    }
+    h1 { font-size: 26px; margin: 24px 0 10px; text-shadow: 0 0 16px rgba(0,212,255,0.4); }
+    p { color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.8; }
+    .code { font-family: 'JetBrains Mono', monospace; color: #7B2D8E; font-size: 13px; margin-top: 14px; }
+    .btns { margin-top: 34px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    a, button {
+      padding: 12px 30px; border-radius: 26px; font-size: 14px; cursor: pointer;
+      letter-spacing: 0.1em; text-decoration: none; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    a {
+      background: linear-gradient(90deg, rgba(0,212,255,0.2), rgba(123,45,142,0.3));
+      border: 1px solid rgba(0,212,255,0.4); color: #E0E6ED;
+    }
+    a:hover { transform: translateY(-3px); box-shadow: 0 0 24px rgba(0,212,255,0.3); }
+    button { background: none; border: 1px solid rgba(255,215,0,0.4); color: #FFD700; }
+    button:hover { transform: translateY(-3px); box-shadow: 0 0 20px rgba(255,215,0,0.25); }
+    #stars { position: fixed; inset: 0; }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="zen">
+    <div class="icon">🪷</div>
+    <h1>您迷路了，但禅意依然陪伴着您。</h1>
+    <p>这一页不存在，或许它已功德圆满，化作星辰。</p>
+    <div class="code">boluo@cyber-zen:~$ ls /404 → No such file or directory</div>
+    <div class="btns">
+      <a href="/">✦ 返回首页</a>
+      <button id="music-btn">🎵 播放禅意音乐</button>
+    </div>
+  </div>
+  <script>
+    /* 星空背景 */
+    const cv = document.getElementById('stars'), ctx = cv.getContext('2d');
+    const resize = () => { cv.width = innerWidth; cv.height = innerHeight; };
+    resize(); addEventListener('resize', resize);
+    const stars = Array.from({ length: 160 }, () => ({
+      x: Math.random(), y: Math.random(), r: Math.random() * 1.3 + 0.3, p: Math.random() * 6.28
+    }));
+    let t = 0;
+    (function draw() {
+      requestAnimationFrame(draw); t += 0.016;
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      stars.forEach(s => {
+        ctx.globalAlpha = 0.3 + 0.5 * Math.abs(Math.sin(t * 0.5 + s.p));
+        ctx.fillStyle = '#8fc8ff';
+        ctx.beginPath(); ctx.arc(s.x * cv.width, s.y * cv.height, s.r, 0, 6.29); ctx.fill();
+      });
+    })();
+    /* 禅意音乐（用户手势触发，合规自动播放） */
+    let audio = null;
+    document.getElementById('music-btn').addEventListener('click', e => {
+      if (!audio) { audio = new Audio('assets/audio/pure-zen.mp3'); audio.loop = true; audio.volume = 0.6; }
+      if (audio.paused) { audio.play().catch(() => {}); e.target.textContent = '⏸ 暂停禅意音乐'; }
+      else { audio.pause(); e.target.textContent = '🎵 播放禅意音乐'; }
+    });
+  </script>
+</body>
+</html>

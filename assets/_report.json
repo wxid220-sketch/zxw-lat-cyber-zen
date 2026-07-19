@@ -1,0 +1,22 @@
+{
+ "images": {
+  "ok": 0,
+  "fail": [],
+  "skipped": []
+ },
+ "audio": {
+  "ok": 0,
+  "fail": [],
+  "notes": []
+ },
+ "sfx": {
+  "ok": 0,
+  "synthesized": [],
+  "fail": []
+ },
+ "video": {
+  "ok": 0,
+  "fail": [],
+  "info": []
+ }
+}

@@ -1,333 +1,481 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZXW.LAT | 赛博禅境</title>
-    <meta name="description" content="在上班和上进之间，我选择了上香；在求人和求己之间，我选择了求佛。来电子功德林，在线敲木鱼超度一切烦恼。">
-    
-    <!-- 社交分享卡片元数据 (Open Graph & Twitter Cards) -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://zxw.lat/">
-    <meta property="og:title" content="ZXW.LAT | 赛博禅境">
-    <meta property="og:description" content="在上班和上进之间，我选择了上香；在求人和求己之间，我选择了求佛。来电子功德林，在线敲木鱼超度一切烦恼。">
-    <meta property="og:image" content="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo1.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://zxw.lat/">
-    <meta name="twitter:title" content="ZXW.LAT | 赛博禅境">
-    <meta name="twitter:description" content="在上班和上进之间，我选择了上香；在求人和求己之间，我选择了求佛。">
-    <meta name="twitter:image" content="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo1.jpg">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Style Sheet -->
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ZXW.LAT | 赛博禅境</title>
+
+  <!-- SEO / OG / Twitter / 微信 itemprop（第二部分 2.1 完整配置） -->
+  <meta name="description" content="ZXW.LAT | 赛博禅境 — 菠萝吹雪的私人领域。电子木鱼、赛博香炉、星空足迹、加密留言板...">
+  <meta name="keywords" content="赛博禅境,电子木鱼,赛博香炉,星空足迹,加密留言,菠萝吹雪">
+  <meta property="og:title" content="ZXW.LAT | 赛博禅境 — 菠萝吹雪的私人领域">
+  <meta property="og:description" content="在上班与上进之间，我选择了上香。这里是菠萝吹雪的赛博禅境，电子木鱼、赛博香炉、星空足迹...来，敲敲木鱼，积攒功德。">
+  <meta property="og:image" content="https://zxw.lat/assets/img/og-image.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ZXW.LAT 赛博禅境 — 花海中的赛博修行者">
+  <meta property="og:url" content="https://zxw.lat">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZXW.LAT">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ZXW.LAT | 赛博禅境">
+  <meta name="twitter:description" content="在上班与上进之间，我选择了上香。敲敲电子木鱼，赛博空间也能积攒功德 ✨">
+  <meta name="twitter:image" content="https://zxw.lat/assets/img/og-image.webp">
+  <meta itemprop="name" content="ZXW.LAT | 赛博禅境">
+  <meta itemprop="description" content="菠萝吹雪的赛博禅境 — 电子木鱼、赛博香炉、星空足迹、加密留言...来，敲敲木鱼，积攒功德 🐟✨">
+  <meta itemprop="image" content="https://zxw.lat/assets/img/og-image.webp">
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="canonical" href="https://zxw.lat">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- JSON-LD 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ZXW.LAT | 赛博禅境",
+    "url": "https://zxw.lat",
+    "description": "在上班与上进之间，我选择了上香。",
+    "author": { "@type": "Person", "name": "菠萝吹雪" }
+  }
+  </script>
 </head>
 <body>
-    <!-- 粒子及渐变背景层 -->
-    <div class="stars-container"></div>
-    <div class="ambient-glow bg-glow-purple"></div>
-    <div class="ambient-glow bg-glow-gold"></div>
 
-    <!-- 花瓣雨/飘叶特效容器 -->
-    <div class="flower-rain-container" id="flower-rain-layer"></div>
+  <!-- 背景层：3D 赛博地球（Three.js CDN，失败自动降级 2D 星空） -->
+  <canvas id="bg-canvas"></canvas>
+  <canvas id="bg-fallback"></canvas>
+  <div id="spotlight"></div>
 
-    <main class="main-container">
-        <!-- 左侧：氛围主角区 -->
-        <section class="profile-section">
-            <div class="glass-card profile-card">
-                <!-- 交互式相册轮播区 -->
-                <div class="image-wrapper" id="carousel-wrapper">
-                    <div class="carousel-slides">
-                        <div class="carousel-slide active" data-index="0">
-                            <img src="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo1.jpg" alt="花海躺平" class="hero-image">
-                        </div>
-                        <div class="carousel-slide" data-index="1">
-                            <img src="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo2.jpg" alt="菠萝吹雪自拍" class="hero-image">
-                        </div>
-                        <div class="carousel-slide" data-index="2">
-                            <img src="https://wxid220-sketch.github.io/zxw-lat-cyber-zen/photo3.jpg" alt="高冷猫咪" class="hero-image">
-                        </div>
-                    </div>
-                    <div class="image-overlay"></div>
-                    <div class="badge neon-badge">ZEN MEMBER</div>
-                    
-                    <!-- 轮播控制键 -->
-                    <button class="carousel-btn prev-btn" id="carousel-prev-btn" aria-label="上一张">&lt;</button>
-                    <button class="carousel-btn next-btn" id="carousel-next-btn" aria-label="下一张">&gt;</button>
-                    
-                    <!-- 指示器 -->
-                    <div class="carousel-indicators">
-                        <span class="indicator active" data-index="0"></span>
-                        <span class="indicator" data-index="1"></span>
-                        <span class="indicator" data-index="2"></span>
-                    </div>
-                </div>
-                <div class="profile-details">
-                    <h1 class="user-title">菠萝吹雪</h1>
-                    <p class="user-subtitle">// 赛博禅修者 & 潮流主理人</p>
-                    <div class="divider"></div>
-                    <div class="manifesto-box">
-                        <span class="quote-icon">“</span>
-                        <p class="manifesto-text">在上班和上进之间，我选择了上香。</p>
-                        <p class="manifesto-text">在求人和求己之间，我选择了求佛。</p>
-                        <span class="quote-icon right">”</span>
-                    </div>
-                </div>
+  <!-- 心愿泡泡层（z-index 最高，FIFO 循环队列） -->
+  <div id="wish-layer"></div>
+
+  <!-- ============ 加载页 ============ -->
+  <div id="preloader">
+    <div class="preloader-bg"></div>
+    <div class="preloader-inner">
+      <svg class="preloader-icon" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="26" stroke="url(#pg)" stroke-width="2" stroke-dasharray="40 120" stroke-linecap="round"/>
+        <circle cx="32" cy="32" r="14" stroke="#7B2D8E" stroke-width="1.5" stroke-dasharray="20 60" stroke-linecap="round"/>
+        <circle cx="32" cy="32" r="3" fill="#00D4FF"/>
+        <defs><linearGradient id="pg" x1="0" y1="0" x2="64" y2="64">
+          <stop stop-color="#00D4FF"/><stop offset="1" stop-color="#7B2D8E"/>
+        </linearGradient></defs>
+      </svg>
+      <div class="preloader-bar"><div class="preloader-progress"></div></div>
+      <div class="preloader-quote"></div>
+    </div>
+  </div>
+
+  <!-- 转场画面（素材2） -->
+  <div id="transition-screen"></div>
+
+  <!-- ============ 登录层 ============ -->
+  <div id="login-overlay">
+    <div class="login-bg"></div>
+    <div class="login-visit"></div>
+    <div class="login-box">
+      <div class="login-avatar-wrap">
+        <div class="login-orbit"></div>
+        <div class="login-avatar"></div>
+      </div>
+      <div class="login-greeting"></div>
+      <div class="login-title">ZXW.LAT | 赛博禅境</div>
+      <input id="login-input" class="login-input" type="text" maxlength="20"
+             placeholder="输入你的修行代号..." autocomplete="off">
+      <button id="login-btn" class="login-btn">进入禅境 ✦</button>
+      <div class="login-error"></div>
+    </div>
+  </div>
+
+  <!-- 开场白叙事 -->
+  <div id="intro-narrative"><div class="intro-text"></div></div>
+
+  <!-- ============ 主应用 ============ -->
+  <div id="app" style="display:none">
+
+    <!-- 顶部状态栏 -->
+    <header id="status-bar">
+      <div class="rank-wrap">
+        <span class="rank-name" id="rank-name">尘世散修</span>
+        <span class="rank-bar"><span class="rank-progress" id="rank-progress"></span></span>
+        <span class="rank-merit" id="rank-merit">0 功德</span>
+        <span id="badge-shelf"></span>
+      </div>
+      <div class="status-right">
+        <span class="visit-stamp" id="visit-stamp"></span>
+        <span class="user-name" id="user-name"></span>
+        <button class="gift-btn" id="gift-btn">🎁 功德送礼</button>
+        <button class="icon-btn" id="music-btn" title="音乐控制台"><span class="vinyl-disc">💿</span></button>
+      </div>
+    </header>
+
+    <!-- ========== 主页 ========== -->
+    <main class="page" data-page="home">
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-mask"></div>
+        <div class="hero-text">
+          <h1 class="hero-title">ZXW.LAT | 赛博禅境</h1>
+          <p class="hero-sub">在上班与上进之间，我选择了上香。</p>
+          <p class="hero-terminal">boluo@cyber-zen:~$ sudo make-merit --now</p>
+        </div>
+      </section>
+
+      <div class="container">
+        <!-- 电子木鱼 + 赛博香炉 -->
+        <div class="merit-grid">
+          <section class="glass-card woodfish-panel" aria-label="电子木鱼">
+            <div class="section-title"><span class="file">woodfish.sh</span> 电子木鱼</div>
+            <button class="woodfish" id="woodfish" aria-label="敲木鱼积功德">
+              <svg viewBox="0 0 200 200">
+                <defs>
+                  <radialGradient id="wg" cx="50%" cy="35%" r="70%">
+                    <stop offset="0%" stop-color="#8a5a2b"/><stop offset="100%" stop-color="#3d2412"/>
+                  </radialGradient>
+                </defs>
+                <ellipse cx="100" cy="112" rx="72" ry="58" fill="url(#wg)" stroke="#c89b5a" stroke-width="2"/>
+                <ellipse cx="100" cy="112" rx="72" ry="58" fill="none" stroke="rgba(255,215,0,0.25)" stroke-width="6" opacity="0.5"/>
+                <path d="M40 100 Q100 78 160 100" stroke="#2a1808" stroke-width="7" fill="none" stroke-linecap="round"/>
+                <circle cx="100" cy="52" r="9" fill="#2a1808"/>
+                <rect x="94" y="18" width="12" height="36" rx="6" fill="#6b4520" stroke="#c89b5a" stroke-width="1.5"/>
+                <text x="100" y="150" text-anchor="middle" fill="#FFD700" font-size="22" opacity="0.85" font-family="serif">卍</text>
+              </svg>
+            </button>
+            <div class="woodfish-count" id="woodfish-count">功德 <b>0</b></div>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px">敲一敲，烦恼 -1，功德 +1</p>
+          </section>
+
+          <section class="glass-card incense-panel" aria-label="赛博香炉">
+            <div class="section-title"><span class="file">incense.sh</span> 赛博香炉</div>
+            <div class="incense-burner">
+              <div class="incense-stick" id="incense-stick"><span class="ember"></span></div>
+              <div class="burner-body"></div>
             </div>
+            <div class="incense-status" id="incense-status">点击敬香，青烟袅袅，功德 ×2</div>
+            <div class="btn-row">
+              <button class="btn" id="incense-free">🕯️ 免费敬香 30 秒</button>
+            </div>
+            <div class="btn-row" id="incense-tiers">
+              <button class="btn gold">¥6.66 · 1小时</button>
+              <button class="btn gold">¥9.99 · 3小时</button>
+              <button class="btn gold">¥66.66 · 2天</button>
+              <button class="btn gold">¥188.88 · 5天</button>
+            </div>
+            <p style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:12px">付费供奉可自定义 10 字心愿 + 5 字留名，心愿化作泡泡随风而起</p>
+          </section>
+        </div>
+
+        <!-- 相册轮播 -->
+        <section class="section glass-card album-panel" aria-label="相册">
+          <div class="section-title"><span class="file">album/</span> 时光相册</div>
+          <div class="album-carousel">
+            <div id="album-slides"></div>
+            <button class="album-arrow prev" id="album-prev" aria-label="上一张">‹</button>
+            <button class="album-arrow next" id="album-next" aria-label="下一张">›</button>
+            <div class="album-dots" id="album-dots"></div>
+          </div>
         </section>
 
-        <!-- 右侧：赛博木鱼与交互区 -->
-        <section class="interactive-section">
-            <!-- 电子木鱼卡片 -->
-            <div class="glass-card woodfish-card">
-                <div class="card-header">
-                    <div class="status-dot pulsing"></div>
-                    <span class="status-text">SYSTEM LOAD: PEACEFUL</span>
-                    
-                    <!-- 功德送礼触发挂件 -->
-                    <button class="btn-gift-trigger" id="gift-open-btn">
-                        <span class="gift-icon">🎁</span> 功德送礼
-                    </button>
-                    <div class="zen-rank-badge" id="zen-rank">尘世散修</div>
-                </div>
-
-                <div class="merit-counter-container">
-                    <div class="merit-label">当前累计功德</div>
-                    <div class="merit-value" id="merit-val">0</div>
-                </div>
-
-                <!-- 木鱼敲击区域 -->
-                <div class="woodfish-area" id="woodfish-btn">
-                    <div class="woodfish-glow"></div>
-                    <div class="floating-text-container" id="floating-container"></div>
-                    <!-- 木鱼 SVG 矢量图 -->
-                    <svg class="woodfish-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 50,15 
-                                 C 25,15 15,30 15,55 
-                                 C 15,75 32,85 50,85 
-                                 C 68,85 85,75 85,55 
-                                 C 85,30 75,15 50,15 Z" 
-                              fill="url(#woodfish-gradient)" 
-                              stroke="#ff2a5f" 
-                              stroke-width="1.5" />
-                        <path d="M 32,35 C 42,30 58,30 68,35" fill="none" stroke="#bc13fe" stroke-width="2" stroke-linecap="round" />
-                        <path d="M 22,58 C 30,50 40,48 50,48 C 60,48 70,50 78,58" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round" />
-                        <circle cx="35" cy="65" r="3" fill="#bc13fe" opacity="0.8" />
-                        <circle cx="65" cy="65" r="3" fill="#bc13fe" opacity="0.8" />
-                        <path d="M 45,75 C 47,72 53,72 55,75" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round" />
-                        <defs>
-                            <radialGradient id="woodfish-gradient" cx="50%" cy="40%" r="50%" fx="30%" fy="30%">
-                                <stop offset="0%" stop-color="#2a1f3d" />
-                                <stop offset="70%" stop-color="#130e22" />
-                                <stop offset="100%" stop-color="#080511" />
-                            </radialGradient>
-                        </defs>
-                    </svg>
-                    <div class="tap-hint">点击木鱼 或 按空格键 积累功德</div>
-                </div>
+        <!-- 关于我 · 赛博档案 -->
+        <section class="section" aria-label="关于我">
+          <div class="section-title" style="font-size:16px"><span id="about-command">&gt; cat /home/boluo/profile.txt</span></div>
+          <div class="glass-card" style="padding:24px;margin-bottom:20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <img src="assets/img/login_avatar.webp" alt="菠萝吹雪头像" style="width:72px;height:72px;border-radius:50%;border:2px solid rgba(0,212,255,0.4)">
+            <div style="font-family:var(--mono);font-size:13px;line-height:2">
+              <div style="font-size:17px;font-weight:600">菠萝吹雪</div>
+              <div style="color:var(--text-dim)">身份：赛博修行者 | 数字游民 | 禅意生活家</div>
+              <div style="color:var(--text-dim)">坐标：地球某处，信号满格</div>
+              <div style="color:var(--text-dim)">状态：在代码与禅意之间寻找平衡</div>
             </div>
-
-            <!-- 下方互动二合一：赛博香炉 & 社交终端 -->
-            <div class="interactive-grid">
-                <!-- 🏮 赛博香炉卡片 (全面更新的灵动敬香系统) -->
-                <div class="glass-card incense-card">
-                    <div class="incense-header">
-                        <span class="card-icon">🏮</span>
-                        <span class="incense-title">赛博香炉 (付费祈福 & 免费敬香)</span>
-                    </div>
-                    
-                    <div class="incense-body-wrapper">
-                        <!-- 视觉分层：付费心愿浮空渲染层 (z-index 极高，防弹幕遮挡) -->
-                        <div class="wish-banner-layer" id="wish-banner-layer">
-                            <!-- 烟雾缭绕的祈福展示字 -->
-                            <div class="wish-smoke-bubble" id="wish-smoke-bubble">
-                                <span class="wish-text">国泰民安，万事如意</span>
-                                <span class="wish-author">— 菠萝吹雪</span>
-                            </div>
-                        </div>
-
-                        <!-- 袅袅青烟 -->
-                        <div class="smoke-container" id="smoke-container">
-                            <div class="smoke-line line-1"></div>
-                            <div class="smoke-line line-2"></div>
-                            <div class="smoke-line line-3"></div>
-                        </div>
-                        
-                        <!-- 三支清香 -->
-                        <div class="incense-sticks" id="incense-sticks">
-                            <div class="stick stick-1"><div class="stick-tip"></div></div>
-                            <div class="stick stick-2"><div class="stick-tip"></div></div>
-                            <div class="stick stick-3"><div class="stick-tip"></div></div>
-                        </div>
-                        
-                        <!-- 香炉炉身 -->
-                        <div class="burner">
-                            <div class="burner-brim"></div>
-                            <div class="burner-body"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- 敬香互动面板 -->
-                    <div class="incense-control-panel">
-                        <!-- 模式切换 Tabs -->
-                        <div class="incense-tabs">
-                            <button class="incense-tab active" id="tab-free-btn">免费敬香</button>
-                            <button class="incense-tab" id="tab-pay-btn">付费祈福</button>
-                        </div>
-                        
-                        <!-- 免费敬香面板 -->
-                        <div class="incense-panel-content active" id="panel-free">
-                            <button class="btn-free-incense" id="free-incense-action">免费上一炷香</button>
-                            <p class="incense-panel-tip">免费香持续 30 秒，修身养性积累基础功德</p>
-                        </div>
-                        
-                        <!-- 付费祈福面板 -->
-                        <div class="incense-panel-content" id="panel-pay">
-                            <div class="input-row">
-                                <input type="text" id="wish-input" maxlength="10" placeholder="写下您的心愿 (10字内)" class="incense-input">
-                                <input type="text" id="name-input" maxlength="5" placeholder="留名 (5字内)" class="incense-input">
-                            </div>
-                            
-                            <!-- 供奉时长选择 -->
-                            <div class="wish-options-grid">
-                                <label class="wish-option active">
-                                    <input type="radio" name="wish-price" value="6.66" checked>
-                                    <div class="option-box">
-                                        <span class="opt-price">¥6.66</span>
-                                        <span class="opt-time">1小时供奉</span>
-                                    </div>
-                                </label>
-                                <label class="wish-option">
-                                    <input type="radio" name="wish-price" value="9.99">
-                                    <div class="option-box">
-                                        <span class="opt-price">¥9.99</span>
-                                        <span class="opt-time">3小时供奉</span>
-                                    </div>
-                                </label>
-                                <label class="wish-option">
-                                    <input type="radio" name="wish-price" value="66.66">
-                                    <div class="option-box">
-                                        <span class="opt-price">¥66.66</span>
-                                        <span class="opt-time">2天供奉</span>
-                                    </div>
-                                </label>
-                                <label class="wish-option">
-                                    <input type="radio" name="wish-price" value="188.88">
-                                    <div class="option-box">
-                                        <span class="opt-price">¥188.88</span>
-                                        <span class="opt-time">5天供奉</span>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <!-- 一键支付拉起链接按钮 -->
-                            <div class="pay-btn-row">
-                                <a href="#" target="_blank" class="pay-action-btn alipay-direct" id="wish-alipay-btn">
-                                    支付宝供奉
-                                </a>
-                                <a href="#" target="_blank" class="pay-action-btn wechat-direct" id="wish-wechat-btn">
-                                    微信供奉
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 抖音入口与信息卡片 -->
-                <div class="glass-card terminal-card">
-                    <div class="terminal-header">
-                        <div class="window-dot red"></div>
-                        <div class="window-dot yellow"></div>
-                        <div class="window-dot green"></div>
-                        <span class="terminal-title">boluo@cyber-zen:~</span>
-                    </div>
-                    <div class="terminal-body">
-                        <p class="term-line"><span class="term-prompt">$</span> cat info.txt</p>
-                        <p class="term-output">NICKNAME: 菠萝吹雪</p>
-                        <p class="term-output">LOCATION: 赛博净土大雄宝殿</p>
-                        <p class="term-output">HOBBY: 烧香拜佛, 积累功德, 享受当下</p>
-                        <p class="term-line"><span class="term-prompt">$</span> check --status</p>
-                        <p class="term-output text-success">✔ 身体健康. 烦恼已超度. 财运爆发中...</p>
-                        
-                        <a href="https://www.douyin.com/user/MS4wLjABAAAAS2Da8JoiuY9C37Lt2J291z_Tq6Aw5gjh81apmEqzlpU?from_tab_name=main" 
-                           target="_blank" 
-                           class="btn-douyin">
-                            <span class="btn-text">直达我的抖音主页</span>
-                            <svg class="icon-douyin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.07-2.88-.54-4.05-1.4-1.17-.86-1.95-2.18-2.23-3.61-.03-.15-.05-.3-.08-.45-.01.07-.01.14-.01.2v11.16c-.01 2.36-.93 4.67-2.65 6.29-1.72 1.62-4.14 2.47-6.49 2.37-2.35-.1-4.6-1.22-6.07-3.06-1.47-1.84-2.07-4.29-1.7-6.62.37-2.33 1.75-4.42 3.79-5.61 2.04-1.19 4.6-1.44 6.84-.71v4.2c-1.24-.48-2.66-.4-3.83.21-1.17.61-1.98 1.83-2.19 3.15-.21 1.32.22 2.71 1.13 3.68.91.97 2.27 1.45 3.59 1.3 1.32-.15 2.5-1.01 2.99-2.25.49-1.24.47-2.67.47-3.99V.02h4.37z" 
-                                      fill="currentColor"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div class="about-grid" id="hobby-grid"></div>
         </section>
+
+        <!-- 碎碎念 -->
+        <section class="section glass-card murmur-panel" aria-label="碎碎念">
+          <div class="m-title">&gt; tail -n 3 /var/log/mood.log —— 碎碎念</div>
+          <div id="murmur-list"></div>
+        </section>
+
+        <!-- 底部入口卡片 -->
+        <div class="entry-grid">
+          <button class="entry-card" data-target="gallery">
+            <span class="e-icon">🖼️</span>图片墙<span class="e-desc">收藏时间的碎片 · 57 帧</span>
+          </button>
+          <button class="entry-card" data-target="passion">
+            <span class="e-icon">🔥</span>热爱 🔥<span class="e-desc">3D 旋转视频墙 · 弹幕 · 送礼</span>
+          </button>
+        </div>
+        <div class="mini-links">
+          <button data-nav="starmap">✨ 星空足迹</button>
+          <button data-nav="guestbook">🌟 星际留言</button>
+          <button data-nav="gallery">🖼️ 图片墙</button>
+          <button data-nav="passion">🔥 热爱</button>
+        </div>
+
+        <!-- 页脚：彩蛋区 -->
+        <footer class="footer-zone">
+          <div class="foot-dots">
+            <button class="foot-dot" aria-label="切换主题色 1"></button>
+            <button class="foot-dot" aria-label="切换主题色 2"></button>
+            <button class="foot-dot" aria-label="切换主题色 3"></button>
+          </div>
+          <div class="quick-jump">
+            <input id="quick-jump-input" type="text" placeholder="试试输入：图片 / 音乐 / 热爱 / 留言 / 足迹">
+            <button id="quick-jump-btn">跳转 →</button>
+          </div>
+          <button class="share-btn" id="share-btn">✦ 分享我的世界</button>
+          <div class="triple-zone" id="triple-zone" title=""></div>
+          <div class="footer-note">ZXW.LAT © 2026 · boluo@cyber-zen:~ · 按 H 查看快捷键</div>
+        </footer>
+      </div>
     </main>
 
-    <!-- 🎁 功德送礼弹窗 (已优化为点击按钮一键跳转拉起支付) -->
-    <div class="modal-overlay" id="payment-modal">
-        <div class="modal-card">
-            <button class="modal-close-btn" id="gift-close-btn">&times;</button>
-            <h2 class="modal-title">🏮 功德藏宝阁 🏮</h2>
-            <p class="modal-subtitle">选择贡品打赏主理人，获得十倍福报加持</p>
-            
-            <!-- 礼物货架 -->
-            <div class="gift-grid">
-                <div class="gift-item active" data-price="6.66" data-merit="99" data-name="清幽雅兰" data-icon="🌸" data-meaning="高雅脱俗，化解生活琐碎烦恼">
-                    <span class="gift-item-icon">🌸</span>
-                    <h3 class="gift-item-name">清幽雅兰</h3>
-                    <p class="gift-item-merit">功德 +99</p>
-                    <div class="gift-item-price">助印 ¥6.66</div>
-                </div>
-                <div class="gift-item" data-price="9.99" data-merit="199" data-name="佛前心灯" data-icon="🕯️" data-meaning="照破黑暗，指引前路开慧大吉">
-                    <span class="gift-item-icon">🕯️</span>
-                    <h3 class="gift-item-name">佛前心灯</h3>
-                    <p class="gift-item-merit">功德 +199</p>
-                    <div class="gift-item-price">助印 ¥9.99</div>
-                </div>
-                <div class="gift-item" data-price="66.66" data-merit="999" data-name="金丝沉香" data-icon="📿" data-meaning="沉心静气，避邪纳福财富爆发">
-                    <span class="gift-item-icon">📿</span>
-                    <h3 class="gift-item-name">金丝沉香</h3>
-                    <p class="gift-item-merit">功德 +999</p>
-                    <div class="gift-item-price">助印 ¥66.66</div>
-                </div>
-                <div class="gift-item" data-price="188.88" data-merit="9999" data-name="琉璃万寿灯" data-icon="🏮" data-meaning="光照万代，延寿长康福泽全家">
-                    <span class="gift-item-icon">🏮</span>
-                    <h3 class="gift-item-name">琉璃万寿灯</h3>
-                    <p class="gift-item-merit">功德 +9999</p>
-                    <div class="gift-item-price">助印 ¥188.88</div>
-                </div>
-            </div>
-
-            <!-- 礼物寓意展示卡片 -->
-            <div class="gift-meaning-box">
-                <span class="meaning-label">寓意权益：</span>
-                <span class="meaning-text" id="gift-meaning-text">高雅脱俗，化解生活琐碎烦恼</span>
-            </div>
-
-            <!-- 一键支付拉起链接按钮 (取消扫码，优化为点击直接跳转拉起微信/支付宝) -->
-            <div class="direct-pay-wrapper">
-                <div class="direct-pay-tip">点击下方支付按钮将直接拉起应用完成供奉</div>
-                <div class="pay-btn-row">
-                    <a href="#" target="_blank" class="pay-action-btn alipay-direct" id="gift-alipay-btn">
-                        支付宝一键支付
-                    </a>
-                    <a href="#" target="_blank" class="pay-action-btn wechat-direct" id="gift-wechat-btn">
-                        微信一键支付
-                    </a>
-                </div>
-            </div>
+    <!-- ========== 图片墙 ========== -->
+    <main class="page" data-page="gallery">
+      <div class="container">
+        <div class="page-head">
+          <h2>图片墙</h2>
+          <p>在这里，我收藏了一些关于时间的碎片。</p>
+          <button class="back-btn">← 返回主页</button>
         </div>
+        <div class="masonry" id="masonry"></div>
+      </div>
+    </main>
+
+    <!-- ========== 热爱 ========== -->
+    <main class="page" data-page="passion">
+      <div class="container">
+        <div class="page-head">
+          <h2>热爱 🔥</h2>
+          <p>3D 旋转视频墙 —— 悬停暂停旋转，点击全屏播放，点赞送花送礼。</p>
+          <button class="back-btn">← 返回主页</button>
+        </div>
+        <div style="position:relative">
+          <div id="passion-ring-wrap"></div>
+          <div id="passion-danmaku" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+        </div>
+        <div class="passion-list" id="passion-list"></div>
+      </div>
+    </main>
+
+    <!-- ========== 星空足迹 ========== -->
+    <main class="page" data-page="starmap">
+      <div class="container">
+        <div class="page-head">
+          <h2>星空足迹 ✨</h2>
+          <p>点击地图任意位置，点亮一颗属于你的星星。足迹随时间流转而暗淡，如同真实的星辰。</p>
+          <button class="back-btn">← 返回主页</button>
+        </div>
+        <div id="starmap-stage"></div>
+        <div class="starmap-stats" id="starmap-stats"></div>
+        <p class="starmap-tip">坐标已模糊化到 100m 范围 · 数据仅存本机（配置 Supabase 后可云端同步） · 清除浏览器数据可抹除足迹</p>
+      </div>
+    </main>
+
+    <!-- ========== 星际终端留言板 ========== -->
+    <main class="page" data-page="guestbook">
+      <div class="container">
+        <div class="page-head">
+          <h2>星际终端 🌟</h2>
+          <p>公开留言所有人可见；私密留言 AES-GCM-256 加密，只有知道密码的人才能解密。</p>
+          <button class="back-btn">← 返回主页</button>
+        </div>
+        <div class="terminal-panel">
+          <div class="terminal-head">
+            <span class="dot" style="background:#FF6B6B"></span>
+            <span class="dot" style="background:#FFD700"></span>
+            <span class="dot" style="background:#00FF88"></span>
+            <span style="margin-left:8px">visitor@star-guest:~ — zxw.lat guestbook</span>
+          </div>
+          <div class="msg-filter">
+            <button data-filter="all" class="on">全部</button>
+            <button data-filter="public">公开</button>
+            <button data-filter="private">私密 🔒</button>
+            <button data-filter="mine">我的留言</button>
+          </div>
+          <div class="terminal-body" id="gb-body"></div>
+          <div class="terminal-input-row">
+            <span class="terminal-prompt">visitor@star-guest:~$&nbsp;</span>
+            <input id="gb-input" type="text" maxlength="200" placeholder="输入留言，回车发送（Shift+Enter 换行）…">
+            <button class="btn" id="gb-send" style="padding:8px 20px">发送 ↵</button>
+          </div>
+          <div class="terminal-options">
+            <label><input type="checkbox" id="gb-private"> 🔒 私密留言（AES-256）</label>
+            <input type="password" id="gb-password" placeholder="设置解密密码" maxlength="32">
+            <span style="font-size:11px;color:rgba(255,255,255,0.35)">提交前需约 2-3 秒 PoW 防灌水计算</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div><!-- /app -->
+
+  <!-- ============ 音乐控制台 ============ -->
+  <div id="music-panel">
+    <div class="mp-track"><span class="disc">💿</span><span class="mp-name" id="mp-name">暂无曲目</span></div>
+    <div class="mp-state" id="mp-state">READY</div>
+    <div class="mp-controls">
+      <button id="mp-prev" title="上一首">⏮</button>
+      <button id="mp-play" class="mp-play" title="播放/暂停 (Space)">▶</button>
+      <button id="mp-next" title="下一首">⏭</button>
+      <button id="mp-mute" title="静音 (M)">🔊</button>
     </div>
+    <div class="mp-volume">
+      <span style="font-size:11px;color:var(--text-dim)">VOL</span>
+      <div class="volume-track" id="volume-track">
+        <div class="volume-fill" id="volume-fill"></div>
+        <div class="volume-thumb" id="volume-thumb"></div>
+      </div>
+    </div>
+    <div class="mp-viz"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="mp-list" id="mp-list"></div>
+  </div>
+  <div id="viz-ring"></div>
 
-    <footer class="footer">
-        <p>© 2026 菠萝吹雪 版权所有. 赛博功德基金会技术支持.</p>
-    </footer>
+  <!-- ============ Lightbox ============ -->
+  <div id="lightbox">
+    <img src="" alt="放大查看">
+    <button class="lb-btn lb-prev" id="lb-prev">‹</button>
+    <button class="lb-btn lb-next" id="lb-next">›</button>
+    <button class="lb-btn lb-close" id="lb-close">✕</button>
+  </div>
 
-    <!-- App Logic -->
-    <script src="app.js"></script>
+  <!-- ============ 弹窗面板（18 面板体系） ============ -->
+
+  <!-- 3. 功德藏宝阁 -->
+  <div class="panel-mask" id="gift-mask">
+    <div class="panel-box panel-box-wrap">
+      <button class="panel-close">✕</button>
+      <div class="panel-title">🎁 功德藏宝阁</div>
+      <div class="panel-sub">四档礼物，礼成之后功德暴增</div>
+      <div class="gift-grid" id="gift-grid"></div>
+    </div>
+  </div>
+
+  <!-- 4. 支付确认 -->
+  <div class="panel-mask" id="pay-mask">
+    <div class="panel-box panel-box-wrap">
+      <button class="panel-close">✕</button>
+      <div class="panel-title" id="pay-item-name">供奉</div>
+      <div class="panel-sub">应付 <b id="pay-item-price" style="color:var(--gold)"></b> · 请选择支付方式</div>
+      <div class="pay-methods">
+        <button class="pay-btn alipay" id="pay-alipay">💙 支付宝</button>
+        <button class="pay-btn wechat" id="pay-wechat">💚 微信支付</button>
+      </div>
+      <div class="pay-note">支付链接经分段存储动态拼接 · 1 小时内限 3 次 · 需通过人机验证<br>跳转支付完成后请回到本站确认领取功德</div>
+    </div>
+  </div>
+
+  <!-- 5. 支付成功确认（返回后） -->
+  <div class="panel-mask" id="pay-return-mask">
+    <div class="panel-box panel-box-wrap" style="text-align:center">
+      <div class="panel-title">支付确认</div>
+      <div class="panel-sub">你刚刚发起了 <b id="pay-return-amount" style="color:var(--gold)"></b> 的供奉</div>
+      <div class="btn-row">
+        <button class="btn gold" id="pay-return-yes">✨ 我已完成支付</button>
+        <button class="btn" id="pay-return-no">稍后再说</button>
+      </div>
+      <div class="pay-note">纯静态站点无法接收支付回调，请诚实确认 🙏 心诚则灵</div>
+    </div>
+  </div>
+
+  <!-- 6. 香炉心愿输入 -->
+  <div class="panel-mask" id="wish-mask">
+    <div class="panel-box panel-box-wrap">
+      <button class="panel-close">✕</button>
+      <div class="panel-title">🕯️ 许下心愿</div>
+      <div class="panel-sub" id="wish-tier-label"></div>
+      <div class="wish-form">
+        <input id="wish-input" type="text" placeholder="心愿（10 字以内）" maxlength="10">
+        <div class="char-count" id="wish-count">0/10</div>
+        <input id="wish-name-input" type="text" placeholder="留名（5 字以内）" maxlength="5">
+        <div class="btn-row"><button class="btn gold" id="wish-submit">写入心愿泡泡 →</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 星空足迹：点亮星星 -->
+  <div class="panel-mask" id="star-mask">
+    <div class="panel-box panel-box-wrap">
+      <button class="panel-close">✕</button>
+      <div class="panel-title">✨ 点亮星星</div>
+      <div class="panel-sub">坐标：<span id="star-coord" style="font-family:var(--mono)"></span>（已模糊化）</div>
+      <div class="wish-form">
+        <input id="star-nick" type="text" placeholder="昵称（可选）" maxlength="20">
+        <input id="star-msg" type="text" placeholder="留言（可选，100 字以内）" maxlength="100">
+        <div class="btn-row"><button class="btn" id="star-submit">点亮 ✨</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. 访客感言录（彩蛋） -->
+  <div class="panel-mask" id="voices-mask">
+    <div class="panel-box panel-box-wrap">
+      <button class="panel-close">✕</button>
+      <div class="panel-title">📖 访客感言录</div>
+      <div class="panel-sub">随机三条留言 · 已为你切换纯净版音乐</div>
+      <div id="voices-list"></div>
+    </div>
+  </div>
+
+  <!-- 16. 快捷键帮助 -->
+  <div class="panel-mask" id="help-mask">
+    <div class="panel-box panel-box-wrap">
+      <button class="panel-close">✕</button>
+      <div class="panel-title">⌨️ 快捷键</div>
+      <table class="kbd-table">
+        <tr><td>Space</td><td>播放 / 暂停音乐</td></tr>
+        <tr><td>M</td><td>静音</td></tr>
+        <tr><td>↑ / ↓</td><td>音量增减</td></tr>
+        <tr><td>← / →</td><td>图片切换（Lightbox 内）</td></tr>
+        <tr><td>ESC</td><td>关闭面板</td></tr>
+        <tr><td>F</td><td>全屏切换</td></tr>
+        <tr><td>G</td><td>跳转图片墙</td></tr>
+        <tr><td>P</td><td>跳转热爱板块</td></tr>
+        <tr><td>H</td><td>显示 / 关闭本帮助</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2. 管理后台（右侧滑入；入口 DOM 仅管理员渲染） -->
+  <aside id="admin-panel">
+    <h3>⚙️ 管理后台 <button id="admin-close" class="admin-btn" style="float:right">收起</button></h3>
+    <div class="admin-stat" id="admin-stats"></div>
+    <h4>相册图片管理</h4>
+    <div id="admin-album"></div>
+    <h4>音乐曲目管理</h4>
+    <div id="admin-music"></div>
+    <h4>留言管理</h4>
+    <div id="admin-messages"></div>
+    <h4>碎碎念编辑</h4>
+    <div class="admin-row">
+      <input id="admin-murmur-input" type="text" maxlength="60" placeholder="此刻的心情…（60 字以内）">
+      <button class="admin-btn" id="admin-murmur-add">发布</button>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:18px;line-height:1.8">
+      注：纯静态站点的管理修改仅保存在本机 localStorage（演示用）；如需线上生效请接入后端服务。
+    </p>
+  </aside>
+
+  <!-- 15. 离线提示 -->
+  <div id="offline-banner">您目前处于离线模式，但您的回忆依然陪伴着您。</div>
+
+  <!-- 脚本：配置先行，模块按依赖顺序加载 -->
+  <script src="js/config.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script src="js/audio.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script src="js/about.js" defer></script>
+  <script src="js/earth.js" defer></script>
+  <script src="js/starmap.js" defer></script>
+  <script src="js/guestbook.js" defer></script>
+  <script src="js/passion.js" defer></script>
+  <script src="js/admin.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

@@ -29,6 +29,8 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="canonical" href="https://zxw.lat">
+  <!-- Leaflet（星空足迹，免 Key）；CDN 失败时 starmap.js 自动降级 Canvas 2D 星图 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="css/style.css">
 
   <!-- JSON-LD 结构化数据 -->
@@ -464,7 +466,8 @@
   <!-- 15. 离线提示 -->
   <div id="offline-banner">您目前处于离线模式，但您的回忆依然陪伴着您。</div>
 
-  <!-- 脚本：配置先行，模块按依赖顺序加载 -->
+  <!-- 脚本：配置先行，模块按依赖顺序加载（defer 保证顺序；Leaflet 最先就绪） -->
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" defer></script>
   <script src="js/config.js" defer></script>
   <script src="js/utils.js" defer></script>
   <script src="js/particles.js" defer></script>

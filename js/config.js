@@ -231,22 +231,28 @@ const CONFIG = {
   /* ---- 支付安全：频率限制（1 小时内最多 3 次） ---- */
   paymentRateLimit: { windowMs: 3600000, maxCount: 3 },
 
-  /* ==================== 外部服务 API Key（占位） ====================
-   * 以下功能需要自行申请 Key；未配置时自动降级为本地实现，不影响网站使用。 */
+  /* ==================== 外部服务配置（占位） ==================== */
 
-  /* 高德地图 JSAPI（星空足迹模块）。
-   * 申请：https://lbs.amap.com/  → 创建「Web端(JS API)」应用。
-   * 未配置时：自动切换为内置 Canvas 2D 星图（本地足迹打点，无地图底图）。 */
-  amap: {
-    key: '',          // ← 填入高德 JSAPI Key
-    securityCode: ''  // ← 填入安全密钥（jscode）
-  },
+  /* 星空足迹：Leaflet + CARTO 暗黑底图（© OpenStreetMap © CARTO），
+   * 完全免 API Key，无需任何配置；Leaflet 走 CDN（见 index.html），
+   * CDN 加载失败（超时 8 秒）自动降级为内置 Canvas 2D 星图兜底。 */
 
   /* Supabase（足迹 / 留言的云端同步）。
    * 未配置时：足迹与留言仅保存在本机 localStorage，全部功能可正常使用。 */
   supabase: {
     url: '',          // ← 填入 Supabase Project URL
     anonKey: ''       // ← 填入 anon public key
+  },
+
+  /* 星空足迹：Leaflet + CARTO 暗黑底图（© OpenStreetMap © CARTO），免 Key。
+   * Leaflet CDN 加载失败时自动降级为 Canvas 2D 星图。 */
+  leaflet: {
+    tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    defaultCenter: [35.0, 105.0],  // 中国视野
+    defaultZoom: 4,
+    locateZoom: 11,
+    timeoutMs: 8000                // CDN 加载超时 → 降级 Canvas 星图
   },
 
   /* Three.js CDN（3D 赛博地球）。加载失败时自动降级为 Canvas 2D 星空。 */

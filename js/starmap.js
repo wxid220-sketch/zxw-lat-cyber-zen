@@ -1,78 +1,125 @@
 /* ============================================================================
- * starmap.js — 星空足迹
- * 优先高德 AMap JSAPI（需在 config.js 填入 key / securityCode）；
- * 未配置或加载失败时自动降级为内置 Canvas 2D 星图：
- * 本地足迹打点、颜色/大小随时间衰减、点击"点亮星星"、坐标模糊化 100m、
- * 底部统计"已有 N 位访客在此留下足迹"。
+ * starmap.js — 星空足迹（Leaflet + CARTO 暗黑底图，完全免 API Key）
+ * ----------------------------------------------------------------------------
+ * 底图：CARTO dark_all（© OpenStreetMap © CARTO），天生暗黑，契合赛博禅境。
+ * 功能：定位（Geolocation → IP 城市级 → 默认北京）、自定义 SVG 星星标记
+ * （pulsating 动画）、时间衰减（亮青→青→紫→暗紫，大小同步衰减）、点击地图
+ * 点亮星星（昵称 + 可选留言）、坐标模糊化 100m、localStorage 持久化、
+ * 「已有 N 位访客留下足迹」统计。
+ * 降级链：Leaflet CDN 未就绪（轮询至超时 8 秒）→ 内置 Canvas 2D 星图兜底。
  * ==========================================================================*/
 
 const Starmap = {
   stars: [],
   inited: false,
+  _map: null,
+  _local: false,
 
   init() {
     if (this.inited) return; this.inited = true;
     this.stars = Utils.get('footprints', []);
-    if (CONFIG.amap.key) this._initAmap();
-    else this._initLocal();
+    this._waitLeaflet(Date.now());
   },
 
-  /* ==================== 高德地图模式（需 API Key） ==================== */
-  _initAmap() {
-    window._AMapSecurityConfig = { securityJsCode: CONFIG.amap.securityCode };
-    const s = document.createElement('script');
-    s.src = `https://webapi.amap.com/maps?v=2.0&key=${encodeURIComponent(CONFIG.amap.key)}`;
-    s.onload = () => this._renderAmap();
-    s.onerror = () => { Utils.toast('地图加载失败', '已切换为本地星图模式'); this._initLocal(); };
-    document.head.appendChild(s);
-    setTimeout(() => { if (!window.AMap && !this._local) this._initLocal(); }, 8000);
+  /* ---- 等待 Leaflet 就绪；超时 8 秒降级 Canvas 2D 星图 ---- */
+  _waitLeaflet(start) {
+    if (window.L) return this._initLeaflet();
+    if (Date.now() - start >= (CONFIG.leaflet.timeoutMs || 8000)) {
+      console.warn('[ZXW] Leaflet CDN 加载超时，降级为 Canvas 2D 星图');
+      return this._initLocal();
+    }
+    setTimeout(() => this._waitLeaflet(start), 200);
   },
 
-  _renderAmap() {
-    if (!window.AMap) return this._initLocal();
+  /* ==================== Leaflet 真实地图模式 ==================== */
+  _initLeaflet() {
     const stage = document.getElementById('starmap-stage');
-    stage.innerHTML = '<div id="amap-container" style="width:100%;height:100%"></div>';
-    const map = new AMap.Map('amap-container', {
-      zoom: 4, center: [105, 35], mapStyle: 'amap://styles/darkblue'
+    stage.innerHTML = '<div id="leaflet-map" style="width:100%;height:100%"></div>';
+
+    const cfg = CONFIG.leaflet;
+    const map = L.map('leaflet-map', {
+      center: cfg.defaultCenter,
+      zoom: cfg.defaultZoom,
+      minZoom: 3,
+      maxZoom: 18,
+      worldCopyJump: true,
+      zoomControl: true,
+      attributionControl: true,
+      tap: true,                 // 移动端触控
+      touchZoom: true,
+      bounceAtZoomLimits: false
     });
-    this._amap = map;
+    this._map = map;
+
+    /* CARTO 暗黑底图（attribution 必须保留） */
+    L.tileLayer(cfg.tileUrl, {
+      attribution: cfg.attribution,
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    /* 渲染历史足迹 */
+    this.stars.forEach(st => this._addMarker(st));
+
+    /* 定位流程：Geolocation → IP 城市级 → 默认北京 */
     this._locate(map);
-    this.stars.forEach(st => this._addAmapMarker(map, st));
-    map.on('click', e => this._askStar(e.lnglat.lng, e.lnglat.lat));
+
+    /* 点击地图任意位置 → 点亮星星（坐标模糊化 100m） */
+    map.on('click', e => {
+      this._askStar(Utils.fuzzCoord(e.latlng.lng), Utils.fuzzCoord(e.latlng.lat));
+    });
+
     this._renderStats();
   },
 
-  /* 定位流程：Geolocation → CitySearch IP → 默认北京天安门 */
+  /* 定位：浏览器高精度 → ipapi.co 城市级（免 Key）→ 北京天安门 */
   _locate(map) {
-    const fallback = () => {
-      AMap.plugin('AMap.CitySearch', () => {
-        const cs = new AMap.CitySearch();
-        cs.getLocalCity((status, res) => {
-          if (status === 'complete' && res.bounds) map.setCenter(res.bounds.getCenter());
-        });
-      });
+    const cfg = CONFIG.leaflet;
+    const toDefault = () => map.setView([39.9042, 116.4074], 9);
+    const toIpCity = () => {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 4000);
+      fetch('https://ipapi.co/json/', { signal: ctrl.signal })
+        .then(r => r.json())
+        .then(d => {
+          clearTimeout(timer);
+          if (d && d.latitude && d.longitude) map.setView([d.latitude, d.longitude], 9);
+          else toDefault();
+        })
+        .catch(() => { clearTimeout(timer); toDefault(); });
     };
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        p => map.setCenter([p.coords.longitude, p.coords.latitude]),
-        fallback, { timeout: 5000 });
-    } else fallback();
+        p => map.setView([p.coords.latitude, p.coords.longitude], cfg.locateZoom),
+        toIpCity,
+        { timeout: 5000, maximumAge: 300000 });
+    } else toIpCity();
   },
 
-  _addAmapMarker(map, st) {
+  /* 星星标记：自定义 SVG 五角星 + pulsating 动画 + 时间衰减 */
+  _addMarker(st) {
+    if (!this._map) return;
     const { color, size, opacity } = this._decay(st.timestamp);
-    const marker = new AMap.Marker({
-      position: [st.lng, st.lat],
-      content: `<div style="color:${color};opacity:${opacity}">${this._starSvg(size)}</div>`,
-      offset: new AMap.Pixel(-size / 2, -size / 2)
+    const icon = L.divIcon({
+      className: 'star-marker',
+      html: `<span style="color:${color};opacity:${opacity};display:block;animation:starPulse 2s ease-in-out infinite">${this._starSvg(size)}</span>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+      popupAnchor: [0, -size / 2]
     });
-    marker.on('click', () => {
-      if (st.message) Utils.toast(st.nickname || '某位修行者', st.message);
-    });
-    map.add(marker);
+    const marker = L.marker([st.lat, st.lng], { icon, keyboard: false }).addTo(this._map);
+    /* 点击星星 → 暗色 Glassmorphism popup 展示留言 */
+    const who = Utils.sanitize(st.nickname || '某位修行者');
+    const msg = st.message ? Utils.sanitize(st.message) : '（没有留言，只留下了一束光）';
+    marker.bindPopup(
+      `<div class="star-pop"><b>✨ ${who}</b><span>${msg}</span>
+       <time>${Utils.fmtTime(st.timestamp)}</time></div>`,
+      { closeButton: false, className: 'star-popup' }
+    );
+    return marker;
   },
 
-  /* ==================== 本地 Canvas 星图（无 Key 降级） ==================== */
+  /* ==================== 本地 Canvas 星图（CDN 失败兜底） ==================== */
   _initLocal() {
     this._local = true;
     const stage = document.getElementById('starmap-stage');
@@ -89,10 +136,9 @@ const Starmap = {
       x: Math.random(), y: Math.random(), r: Math.random() * 1.3 + 0.2, p: Math.random() * 6.28
     }));
 
-    /* 点击"点亮星星"：弹出昵称 + 留言浮层 */
+    /* 点击"点亮星星"：本地星图用伪经纬度（中国范围相对映射），同样模糊化 */
     cv.addEventListener('click', e => {
       const r = cv.getBoundingClientRect();
-      /* 本地星图用伪经纬度（相对坐标映射），同样模糊化到 100m 级别 */
       const lng = Utils.fuzzCoord(73 + (e.clientX - r.left) / r.width * 62);   // 73°E~135°E
       const lat = Utils.fuzzCoord(53 - (e.clientY - r.top) / r.height * 35);   // 53°N~18°N
       this._askStar(lng, lat);
@@ -103,7 +149,6 @@ const Starmap = {
       this._raf = requestAnimationFrame(draw);
       t += 0.016;
       ctx.clearRect(0, 0, cv.width, cv.height);
-      /* 背景星 */
       this._bgStars.forEach(s => {
         ctx.globalAlpha = 0.3 + 0.5 * Math.abs(Math.sin(t * 0.5 + s.p));
         ctx.fillStyle = '#8fc8ff';
@@ -148,7 +193,7 @@ const Starmap = {
     ctx.closePath(); ctx.fill();
   },
 
-  /* ---- 时间衰减：新亮青 → 旧暗紫，大 → 小 ---- */
+  /* ---- 时间衰减：<24h 亮青 / <7d 青 / <30d 紫 / >30d 暗紫，大小同步 ---- */
   _decay(ts) {
     const age = Date.now() - ts, d = 86400000;
     if (age < d) return { color: '#00D4FF', size: 24, opacity: 1 };
@@ -158,10 +203,10 @@ const Starmap = {
   },
 
   _starSvg(size) {
-    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z"/></svg>`;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor" style="filter:drop-shadow(0 0 6px currentColor)"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z"/></svg>`;
   },
 
-  /* ---- 点亮星星：昵称 + 留言浮层 ---- */
+  /* ---- 点亮星星：昵称 + 留言浮层（与留言板共用面板体系） ---- */
   _askStar(lng, lat) {
     const mask = document.getElementById('star-mask');
     document.getElementById('star-nick').value = localStorage.getItem('user') || '';
@@ -174,7 +219,7 @@ const Starmap = {
       const st = { lng, lat, nickname: nick, message: msg, timestamp: Date.now() };
       this.stars.push(st);
       Utils.set('footprints', this.stars);
-      if (this._amap) this._addAmapMarker(this._amap, st);
+      if (this._map) this._addMarker(st);   // Canvas 模式由绘制循环自动呈现
       Utils.closePanel(mask);
       Utils.toast('星星已点亮 ✨', '你在这片星空留下了足迹');
       Badges.grant('star');
@@ -183,7 +228,7 @@ const Starmap = {
     Utils.openPanel(mask);
   },
 
-  /* 进入页面时尝试定位并自动落一个"当前位置"足迹（可关闭） */
+  /* 进入页面时尝试定位并自动落一个"当前位置"足迹（仅首次） */
   autoLocate() {
     if (Utils.get('footprintOptOut', false)) return;
     if (!navigator.geolocation || Utils.get('footprintLocated', false)) return;
@@ -197,6 +242,7 @@ const Starmap = {
       this.stars.push(st);
       Utils.set('footprints', this.stars);
       Utils.set('footprintLocated', true);
+      if (this._map) this._addMarker(st);
       this._renderStats();
     }, () => {}, { timeout: 4000 });
   },

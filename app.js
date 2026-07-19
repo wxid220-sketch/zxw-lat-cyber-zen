@@ -54,17 +54,38 @@ const zenRankEl = document.getElementById('zen-rank');
 const incensePot = document.getElementById('incense-pot');
 const incenseHint = document.getElementById('incense-hint');
 
+// 支付/送礼弹窗元素
+const paymentModal = document.getElementById('payment-modal');
+const giftOpenBtn = document.getElementById('gift-open-btn');
+const giftCloseBtn = document.getElementById('gift-close-btn');
+const giftItems = document.querySelectorAll('.gift-item');
+const payTabs = document.querySelectorAll('.pay-tab');
+const qrSvg = document.querySelector('.qrcode-svg');
+const paymentHint = document.getElementById('payment-hint');
+const confirmPayBtn = document.getElementById('confirm-pay-btn');
+const flowerRainLayer = document.getElementById('flower-rain-layer');
+
 // 全局变量
 let meritCount = parseInt(localStorage.getItem('merit_count') || '0', 10);
 let audioCtx = null;
 let meritMultiplier = 1; // 功德加成倍率
 let isIncensing = false;  // 是否正在上香
 
+// 选中的礼品数据 (默认首选)
+let selectedGift = {
+    price: '6.66',
+    merit: 99,
+    name: '清幽雅兰',
+    icon: '🌸'
+};
+let selectedMethod = 'wechat'; // wechat 或 alipay
+
 // 初始化显示
 meritValEl.textContent = meritCount.toLocaleString();
 updateZenRank(meritCount);
+updateConfirmBtnText();
 
-// 功德身份评级更新函数
+// 功德身份评级更新
 function updateZenRank(count) {
     const rank = ZEN_RANKS.find(r => count < r.limit);
     if (rank) {
@@ -72,7 +93,7 @@ function updateZenRank(count) {
     }
 }
 
-// Web Audio API 声音合成函数 (单例重构)
+// Web Audio API 声音合成
 function playWoodfishSound() {
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -92,7 +113,6 @@ function playWoodfishSound() {
         osc.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         
-        // 模拟沉稳木鱼敲击声
         osc.type = 'sine';
         const now = audioCtx.currentTime;
         osc.frequency.setValueAtTime(180, now);
@@ -112,7 +132,7 @@ function playWoodfishSound() {
 function triggerWoodfish(clientX, clientY) {
     playWoodfishSound();
     
-    // 累加功德值 (支持香炉的翻倍加成)
+    // 累加功德值
     const addVal = 1 * meritMultiplier;
     meritCount += addVal;
     localStorage.setItem('merit_count', meritCount);
@@ -127,13 +147,12 @@ function triggerWoodfish(clientX, clientY) {
         meritValEl.style.transform = 'scale(1)';
     }, 80);
 
-    // 木鱼微缩形变回弹
+    // 木鱼形变
     svgPath.style.transform = 'scale(0.92)';
     setTimeout(() => {
         svgPath.style.transform = 'scale(1)';
     }, 60);
     
-    // 获取相对定位坐标
     const rect = woodfishBtn.getBoundingClientRect();
     let x, y;
     if (clientX !== undefined && clientY !== undefined) {
@@ -144,41 +163,37 @@ function triggerWoodfish(clientX, clientY) {
         y = rect.height / 2 - 20;
     }
 
-    // 1. 特效：生成飘字气泡 (对称飞散：一个功德+1偏右，一个烦恼-1偏左)
     createDoubleFloatingText(x, y);
-
-    // 2. 特效：溅射金光闪烁粒子 (爆发打击感)
     createSparkles(x, y);
 }
 
-// 双飘字效果 (增加幽默感与可读性)
+// 双飘字效果 (+1 和 -1 左右对称)
 function createDoubleFloatingText(x, y) {
     const posWord = POSITIVE_PHRASES[Math.floor(Math.random() * POSITIVE_PHRASES.length)];
     const negWord = NEGATIVE_PHRASES[Math.floor(Math.random() * NEGATIVE_PHRASES.length)];
 
-    // 1. 生成正向词 (功德+1等，偏右轨道)
+    // 正向词 (偏右)
     const elPos = document.createElement('div');
     elPos.className = 'floating-text';
     elPos.textContent = posWord.text;
     elPos.style.color = posWord.color;
     elPos.style.left = `${x}px`;
     elPos.style.top = `${y}px`;
-    const rightOffset = 25 + Math.random() * 20; // 偏右 25px 到 45px
+    const rightOffset = 25 + Math.random() * 20;
     elPos.style.setProperty('--random-x', `${rightOffset}px`);
     floatingContainer.appendChild(elPos);
 
-    // 2. 生成负向词 (烦恼-1等，偏左轨道)
+    // 负向词 (偏左)
     const elNeg = document.createElement('div');
     elNeg.className = 'floating-text';
     elNeg.textContent = negWord.text;
     elNeg.style.color = negWord.color;
     elNeg.style.left = `${x}px`;
     elNeg.style.top = `${y}px`;
-    const leftOffset = -(25 + Math.random() * 20); // 偏左 25px 到 45px
+    const leftOffset = -(25 + Math.random() * 20);
     elNeg.style.setProperty('--random-x', `${leftOffset}px`);
     floatingContainer.appendChild(elNeg);
 
-    // 自动销毁
     setTimeout(() => {
         elPos.remove();
         elNeg.remove();
@@ -187,16 +202,15 @@ function createDoubleFloatingText(x, y) {
 
 // 金光四射粒子特效
 function createSparkles(x, y) {
-    const particleCount = 12; // 溅射粒子数
+    const particleCount = 12;
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'sparkle-particle';
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
         
-        // 随机极坐标溅射距离与方向
         const angle = Math.random() * Math.PI * 2;
-        const velocity = 35 + Math.random() * 45; // 溅射半径 35px 到 80px
+        const velocity = 35 + Math.random() * 45;
         const dx = Math.cos(angle) * velocity;
         const dy = Math.sin(angle) * velocity;
         
@@ -205,29 +219,26 @@ function createSparkles(x, y) {
         
         floatingContainer.appendChild(particle);
         
-        // 自动销毁
         setTimeout(() => {
             particle.remove();
         }, 750);
     }
 }
 
-// 电子香炉敬香逻辑
+// 电子香炉敬香
 incensePot.addEventListener('click', () => {
-    if (isIncensing) return; // 正在敬香时不再重复触发
+    if (isIncensing) return;
     
     isIncensing = true;
-    meritMultiplier = 2; // 功德获取速率翻倍
+    meritMultiplier = 2;
     incensePot.classList.add('active');
     incenseHint.textContent = '🔥 敬香中：心澄神明，功德获取速率 x2 倍！';
     incenseHint.style.color = '#ffd700';
 
-    // 激活 AudioContext 兼容
     if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
 
-    // 30 秒后香燃尽
     setTimeout(() => {
         incensePot.classList.remove('active');
         meritMultiplier = 1;
@@ -236,6 +247,168 @@ incensePot.addEventListener('click', () => {
         incenseHint.style.color = 'var(--text-secondary)';
     }, 30000);
 });
+
+// --- 功德送礼与支付模块 ---
+
+// 开启/关闭模态框
+giftOpenBtn.addEventListener('click', () => {
+    paymentModal.classList.add('active');
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+});
+
+giftCloseBtn.addEventListener('click', () => {
+    paymentModal.classList.remove('active');
+});
+
+paymentModal.addEventListener('click', (e) => {
+    if (e.target === paymentModal) {
+        paymentModal.classList.remove('active');
+    }
+});
+
+// 礼物卡片点击切换
+giftItems.forEach(item => {
+    item.addEventListener('click', () => {
+        giftItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        selectedGift.price = item.getAttribute('data-price');
+        selectedGift.merit = parseInt(item.getAttribute('data-merit'), 10);
+        selectedGift.name = item.getAttribute('data-name');
+        selectedGift.icon = item.getAttribute('data-icon');
+        
+        updateConfirmBtnText();
+    });
+});
+
+// 支付方式 Tab 切换 (微信/支付宝)
+payTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        payTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        selectedMethod = tab.getAttribute('data-target');
+        
+        if (selectedMethod === 'wechat') {
+            qrSvg.classList.remove('alipay-theme');
+            paymentHint.textContent = `请扫描微信支付码供奉礼物`;
+        } else {
+            qrSvg.classList.add('alipay-theme');
+            paymentHint.textContent = `请扫描支付宝支付码供奉礼物`;
+        }
+        
+        updateConfirmBtnText();
+    });
+});
+
+// 更新底部确认按钮文字
+function updateConfirmBtnText() {
+    const methodName = selectedMethod === 'wechat' ? '微信' : '支付宝';
+    confirmPayBtn.textContent = `通过 ${methodName} 支付 ¥${selectedGift.price}，供奉「${selectedGift.name}」`;
+    if (selectedMethod === 'wechat') {
+        confirmPayBtn.style.background = 'linear-gradient(90deg, #07c160, #0ab858)';
+        confirmPayBtn.style.boxShadow = '0 4px 15px rgba(7, 193, 96, 0.3)';
+    } else {
+        confirmPayBtn.style.background = 'linear-gradient(90deg, #1677ff, #005eff)';
+        confirmPayBtn.style.boxShadow = '0 4px 15px rgba(22, 119, 255, 0.3)';
+    }
+}
+
+// 模拟充值并送礼成功
+confirmPayBtn.addEventListener('click', () => {
+    // 增加对应礼物的巨额功德值
+    meritCount += selectedGift.merit;
+    localStorage.setItem('merit_count', meritCount);
+    
+    // 更新主界面
+    meritValEl.textContent = meritCount.toLocaleString();
+    updateZenRank(meritCount);
+    
+    // 关闭 Modal
+    paymentModal.classList.remove('active');
+    
+    // 特效 1：满屏花瓣飘落雨 (送花特效)
+    triggerFlowerRain();
+    
+    // 特效 2：屏幕中心飘起华丽的感谢横幅飘字
+    showGiftBanner(selectedGift.icon, selectedGift.name, selectedGift.merit);
+});
+
+// 满屏桃花雨飘落特效
+function triggerFlowerRain() {
+    const petalCount = 28; // 花瓣数量
+    for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'flower-petal';
+        
+        // 随机属性分配，形成错落跌落的美感
+        petal.style.left = `${Math.random() * 100}vw`;
+        
+        const delay = Math.random() * 2.2; // 0s - 2.2s 陆续落下
+        const duration = 2.5 + Math.random() * 2; // 飘落速度
+        petal.style.animationDelay = `${delay}s`;
+        petal.style.animationDuration = `${duration}s`;
+        
+        // 飘落时在水平方向上的漂移偏差 (50px 到 150px)
+        const drift = 50 + Math.random() * 100;
+        petal.style.setProperty('--drift-x', `${drift}px`);
+        
+        flowerRainLayer.appendChild(petal);
+        
+        // 动画结束之后清理 DOM
+        setTimeout(() => {
+            petal.remove();
+        }, (delay + duration) * 1000 + 100);
+    }
+}
+
+// 供奉感谢横幅飘字
+function showGiftBanner(icon, name, merit) {
+    const banner = document.createElement('div');
+    banner.style.position = 'fixed';
+    banner.style.top = '40%';
+    banner.style.left = '50%';
+    banner.style.transform = 'translate(-50%, -50%) scale(0.6)';
+    banner.style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 42, 95, 0.95))';
+    banner.style.border = '2px solid #ffd700';
+    banner.style.boxShadow = '0 0 35px rgba(255, 215, 0, 0.6), 0 10px 40px rgba(0,0,0,0.8)';
+    banner.style.borderRadius = '20px';
+    banner.style.padding = '1.5rem 2.5rem';
+    banner.style.zIndex = '99999';
+    banner.style.textAlign = 'center';
+    banner.style.pointerEvents = 'none';
+    banner.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    banner.style.opacity = '0';
+    
+    banner.innerHTML = `
+        <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">${icon}</div>
+        <div style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5)">
+            成功供奉「${name}」
+        </div>
+        <div style="font-size: 1.15rem; font-weight: 800; color: #fffde0; margin-top: 0.4rem;">
+            获得双倍加持：功德 +${merit}！
+        </div>
+    `;
+    
+    document.body.appendChild(banner);
+    
+    // 渐显放大
+    setTimeout(() => {
+        banner.style.opacity = '1';
+        banner.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 50);
+    
+    // 淡出销毁
+    setTimeout(() => {
+        banner.style.opacity = '0';
+        banner.style.transform = 'translate(-50%, -50%) scale(0.85) translateY(-30px)';
+        setTimeout(() => {
+            banner.remove();
+        }, 500);
+    }, 2800);
+}
 
 // 鼠标/触屏点击事件
 woodfishBtn.addEventListener('click', (e) => {

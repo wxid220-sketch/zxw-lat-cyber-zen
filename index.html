@@ -31,6 +31,9 @@
     <div class="ambient-glow bg-glow-purple"></div>
     <div class="ambient-glow bg-glow-gold"></div>
 
+    <!-- 花瓣雨/飘叶特效容器 -->
+    <div class="flower-rain-container" id="flower-rain-layer"></div>
+
     <main class="main-container">
         <!-- 左侧：氛围主角区 -->
         <section class="profile-section">
@@ -61,7 +64,11 @@
                 <div class="card-header">
                     <div class="status-dot pulsing"></div>
                     <span class="status-text">SYSTEM LOAD: PEACEFUL</span>
-                    <!-- 动态身份段位标签 -->
+                    
+                    <!-- 动态流量送礼按钮 -->
+                    <button class="btn-gift-trigger" id="gift-open-btn">
+                        <span class="gift-icon">🎁</span> 功德送礼
+                    </button>
                     <div class="zen-rank-badge" id="zen-rank">尘世散修</div>
                 </div>
 
@@ -73,7 +80,6 @@
                 <!-- 木鱼敲击区域 -->
                 <div class="woodfish-area" id="woodfish-btn">
                     <div class="woodfish-glow"></div>
-                    <!-- 浮动飘字及溅射粒子容器 -->
                     <div class="floating-text-container" id="floating-container"></div>
                     <!-- 木鱼 SVG 矢量图 -->
                     <svg class="woodfish-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -104,26 +110,23 @@
 
             <!-- 下方互动二合一：电子香炉 & 社交终端 -->
             <div class="interactive-grid">
-                <!-- 电子香炉卡片 (新增互动组件) -->
+                <!-- 电子香炉卡片 -->
                 <div class="glass-card incense-card" id="incense-pot">
                     <div class="incense-header">
                         <span class="card-icon">🏮</span>
                         <span class="incense-title">赛博香炉 (点击敬香)</span>
                     </div>
                     <div class="incense-body">
-                        <!-- 袅袅青烟 -->
                         <div class="smoke-container">
                             <div class="smoke-line line-1"></div>
                             <div class="smoke-line line-2"></div>
                             <div class="smoke-line line-3"></div>
                         </div>
-                        <!-- 三支清香 -->
                         <div class="incense-sticks">
                             <div class="stick stick-1"><div class="stick-tip"></div></div>
                             <div class="stick stick-2"><div class="stick-tip"></div></div>
                             <div class="stick stick-3"><div class="stick-tip"></div></div>
                         </div>
-                        <!-- 香炉炉身 -->
                         <div class="burner">
                             <div class="burner-brim"></div>
                             <div class="burner-body"></div>
@@ -162,6 +165,90 @@
             </div>
         </section>
     </main>
+
+    <!-- 功德送礼与充值弹窗 (Modal) -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="gift-close-btn">&times;</button>
+            <h2 class="modal-title">🏮 功德藏宝阁 🏮</h2>
+            <p class="modal-subtitle">选择贡品打赏主理人，获得十倍福报加持</p>
+            
+            <!-- 礼物货架 -->
+            <div class="gift-grid">
+                <div class="gift-item active" data-price="6.66" data-merit="99" data-name="清幽雅兰" data-icon="🌸">
+                    <span class="gift-item-icon">🌸</span>
+                    <h3 class="gift-item-name">清幽雅兰</h3>
+                    <p class="gift-item-merit">功德 +99</p>
+                    <div class="gift-item-price">助印 ¥6.66</div>
+                </div>
+                <div class="gift-item" data-price="9.99" data-merit="199" data-name="佛前心灯" data-icon="🕯️">
+                    <span class="gift-item-icon">🕯️</span>
+                    <h3 class="gift-item-name">佛前心灯</h3>
+                    <p class="gift-item-merit">功德 +199</p>
+                    <div class="gift-item-price">助印 ¥9.99</div>
+                </div>
+                <div class="gift-item" data-price="66.6" data-merit="999" data-name="金丝沉香" data-icon="📿">
+                    <span class="gift-item-icon">📿</span>
+                    <h3 class="gift-item-name">金丝沉香</h3>
+                    <p class="gift-item-merit">功德 +999</p>
+                    <div class="gift-item-price">助印 ¥66.60</div>
+                </div>
+                <div class="gift-item" data-price="188" data-merit="9999" data-name="琉璃万寿灯" data-icon="🏮">
+                    <span class="gift-item-icon">🏮</span>
+                    <h3 class="gift-item-name">琉璃万寿灯</h3>
+                    <p class="gift-item-merit">功德 +9999</p>
+                    <div class="gift-item-price">助印 ¥188.00</div>
+                </div>
+            </div>
+
+            <!-- 支付方式切换 (微信/支付宝) -->
+            <div class="pay-methods-tabs">
+                <button class="pay-tab active" data-target="wechat">
+                    <span class="tab-icon wx-green">●</span> 微信支付
+                </button>
+                <button class="pay-tab" data-target="alipay">
+                    <span class="tab-icon alipay-blue">●</span> 支付宝支付
+                </button>
+            </div>
+
+            <!-- 二维码显示区域 -->
+            <div class="qrcode-area">
+                <div class="qrcode-wrapper">
+                    <!-- SVG 模拟中国主流支付二维码 -->
+                    <svg class="qrcode-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 二维码背景框 -->
+                        <rect x="5" y="5" width="90" height="90" fill="#fff" rx="4" />
+                        <!-- 三个角的定位方块 -->
+                        <rect x="12" y="12" width="22" height="22" fill="currentColor" class="qr-primary-color" />
+                        <rect x="16" y="16" width="14" height="14" fill="#fff" />
+                        <rect x="19" y="19" width="8" height="8" fill="currentColor" class="qr-primary-color" />
+                        
+                        <rect x="66" y="12" width="22" height="22" fill="currentColor" class="qr-primary-color" />
+                        <rect x="70" y="16" width="14" height="14" fill="#fff" />
+                        <rect x="73" y="19" width="8" height="8" fill="currentColor" class="qr-primary-color" />
+                        
+                        <rect x="12" y="66" width="22" height="22" fill="currentColor" class="qr-primary-color" />
+                        <rect x="16" y="70" width="14" height="14" fill="#fff" />
+                        <rect x="19" y="73" width="8" height="8" fill="currentColor" class="qr-primary-color" />
+                        
+                        <!-- 二维码数据点随机样式 -->
+                        <path d="M 40,12 H 55 V 20 H 40 Z M 45,28 H 60 V 36 H 45 Z M 12,42 H 25 V 50 H 12 Z M 66,42 H 88 V 50 H 66 Z M 40,55 H 55 V 63 H 40 Z M 66,66 H 75 V 75 H 66 Z M 78,78 H 88 V 88 H 78 Z" fill="currentColor" class="qr-primary-color" opacity="0.85" />
+                        <path d="M 45,45 H 55 V 52 H 45 Z M 52,66 H 60 V 78 H 52 Z M 32,78 H 45 V 88 H 32 Z M 78,55 H 85 V 63 H 78 Z M 28,28 H 36 V 42 H 28 Z" fill="currentColor" class="qr-primary-color" opacity="0.75" />
+                        
+                        <!-- 中心的小支付图标占位 -->
+                        <rect x="42" y="42" width="16" height="16" fill="#fff" rx="2" />
+                        <circle cx="50" cy="50" r="5" fill="currentColor" class="qr-primary-color" />
+                    </svg>
+                    <div class="qrcode-scan-line"></div>
+                </div>
+                <div class="qrcode-tip" id="payment-hint">请扫描微信支付码供奉礼物</div>
+                <div class="qrcode-help">（注：运营时将 qrcode.svg 替换为您的真实微信/支付宝收款码即可）</div>
+            </div>
+
+            <!-- 完成按钮 -->
+            <button class="btn-confirm-pay" id="confirm-pay-btn">我已扫码支付，立即供奉</button>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>© 2026 菠萝吹雪 版权所有. 赛博功德基金会技术支持.</p>

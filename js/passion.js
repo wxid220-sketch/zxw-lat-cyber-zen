@@ -59,7 +59,7 @@ const Passion = {
     const base = `translate3d(${x}px,0,${z}px) rotateY(${rotateY}deg)`;
     card.style.transform = base;
     card.innerHTML = `
-      <img src="${video.thumb}" alt="${video.title}" loading="lazy">
+      <img src="${video.thumb}" alt="${video.title}" loading="eager">
       <div class="overlay"><b>${video.title}</b><i>${video.duration}</i></div>
       <div class="play-btn">▶</div>`;
     card.addEventListener('click', () => { Utils.click(); this._focusVideo(index); });
@@ -97,7 +97,7 @@ const Passion = {
       const card = document.createElement('div');
       card.className = 'passion-card';
       card.innerHTML = `
-        <img src="${v.thumb}" alt="${v.title}" loading="lazy">
+        <img src="${v.thumb}" alt="${v.title}" loading="eager">
         <div class="overlay" style="opacity:1"><b>${v.title}</b><i>${v.duration}</i></div>
         <div class="play-btn" style="transform:translate(-50%,-50%) scale(1)">▶</div>`;
       card.addEventListener('click', () => { Utils.click(); this.openFullscreen(v); });

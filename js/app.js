@@ -198,6 +198,8 @@ const App = {
     const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
     Particles.woodfishSparks(x, y);
     ZXAudio.sfx('woodfish', 0.6);
+    /* 触觉反馈（移动端） */
+    if (navigator.vibrate) navigator.vibrate(10);
     /* 敬香期间功德加成 ×2 */
     const gain = this._incenseActive() ? 2 : 1;
     /* 随机飘字：右侧增益（金/橙），左侧减益（红/粉） */
@@ -213,6 +215,18 @@ const App = {
     const taps = Utils.get('woodfishTaps', 0) + 1;
     Utils.set('woodfishTaps', taps);
     if (taps >= 100) Badges.grant('fish100');
+    /* 十连击彩蛋：3 秒内 10 连击 → 劲爆旋律 + 功德 +10 */
+    const now = Date.now();
+    this._tapWindow = (this._tapWindow || []).filter(t => now - t < 3000);
+    this._tapWindow.push(now);
+    if (this._tapWindow.length === 10) {
+      ZXAudio.sfx('combo', 0.8);
+      Merit.add(10);
+      document.getElementById('woodfish-count').innerHTML = `功德 <b>${Merit.get()}</b>`;
+      this.renderRank();
+      Particles.floatText(x, y, '连击如虹 · 功德 +10 🪷', 'gain');
+      if (navigator.vibrate) navigator.vibrate([60, 40, 60, 40, 120]);
+    }
   },
 
   renderRank() {

@@ -73,7 +73,8 @@ const CONFIG = {
     peach:      'assets/audio/sfx-peach.mp3',      // 桃花雨
     login:      'assets/audio/sfx-login.mp3',      // 登录成功
     transition: 'assets/audio/sfx-transition.mp3', // 转场
-    bell:       'assets/audio/sfx-bell.mp3'        // 钟声
+    bell:       'assets/audio/sfx-bell.mp3',       // 钟声
+    combo:      'assets/audio/sfx-combo.wav'       // 十连击劲爆旋律
   },
 
   /* ---- 功德段位 ---- */

@@ -80,8 +80,11 @@ const Particles = {
       dot.style.left = mx + 'px'; dot.style.top = my + 'px';
     });
     (function follow() {
-      /* 0.2s 延迟追随效果 */
-      rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+      /* 距离自适应追随：短距离零延迟贴手，长距离保留惯性拖尾 */
+      const dx = mx - rx, dy = my - ry;
+      const dist = Math.hypot(dx, dy);
+      const k = dist < 100 ? Math.max(0.55, 1 - dist / 100 * 0.45) : 0.14;
+      rx += dx * k; ry += dy * k;
       ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
       requestAnimationFrame(follow);
     })();

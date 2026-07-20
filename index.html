@@ -10,7 +10,9 @@
   <meta name="keywords" content="赛博禅境,电子木鱼,赛博香炉,星空足迹,加密留言,菠萝吹雪">
   <meta property="og:title" content="ZXW.LAT | 赛博禅境 — 菠萝吹雪的私人领域">
   <meta property="og:description" content="在上班与上进之间，我选择了上香。这里是菠萝吹雪的赛博禅境，电子木鱼、赛博香炉、星空足迹...来，敲敲木鱼，积攒功德。">
-  <meta property="og:image" content="https://zxw.lat/assets/img/og-image.webp">
+  <meta property="og:image" content="https://zxw.lat/assets/img/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:secure_url" content="https://zxw.lat/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="ZXW.LAT 赛博禅境 — 花海中的赛博修行者">
@@ -21,16 +23,18 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ZXW.LAT | 赛博禅境">
   <meta name="twitter:description" content="在上班与上进之间，我选择了上香。敲敲电子木鱼，赛博空间也能积攒功德 ✨">
-  <meta name="twitter:image" content="https://zxw.lat/assets/img/og-image.webp">
+  <meta name="twitter:image" content="https://zxw.lat/assets/img/og-image.jpg">
   <meta itemprop="name" content="ZXW.LAT | 赛博禅境">
   <meta itemprop="description" content="菠萝吹雪的赛博禅境 — 电子木鱼、赛博香炉、星空足迹、加密留言...来，敲敲木鱼，积攒功德 🐟✨">
-  <meta itemprop="image" content="https://zxw.lat/assets/img/og-image.webp">
+  <meta itemprop="image" content="https://zxw.lat/assets/img/og-image.jpg">
 
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="canonical" href="https://zxw.lat">
-  <!-- Leaflet（星空足迹，免 Key）；CDN 失败时 starmap.js 自动降级 Canvas 2D 星图 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <!-- CDN 预连接：加速云端数据与星空页 Leaflet（Leaflet 改为进入星空页时按需动态加载，不阻塞首屏） -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://jsonblob.com" crossorigin>
+  <link rel="dns-prefetch" href="https://basemaps.cartocdn.com">
   <link rel="stylesheet" href="css/style.css">
 
   <!-- JSON-LD 结构化数据 -->
@@ -470,8 +474,7 @@
   <!-- 15. 离线提示 -->
   <div id="offline-banner">您目前处于离线模式，但您的回忆依然陪伴着您。</div>
 
-  <!-- 脚本：配置先行，模块按依赖顺序加载（defer 保证顺序；Leaflet 最先就绪） -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <!-- 脚本：配置先行，模块按依赖顺序加载（defer 保证顺序）；Leaflet 由 starmap.js 进入星空页时按需注入 -->
   <script src="js/config.js" defer></script>
   <script src="js/utils.js" defer></script>
   <script src="js/cloud.js" defer></script>

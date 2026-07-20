@@ -37,13 +37,28 @@ const Starmap = {
     this._renderStats();
   },
 
-  /* ---- 等待 Leaflet 就绪；超时 8 秒降级 Canvas 2D 星图 ---- */
+  /* ---- 按需动态加载 Leaflet（不阻塞首屏）；超时/失败降级 Canvas 2D 星图 ---- */
+  _leafletLoading: false,
+  _leafletFailed: false,
+  _ensureLeaflet() {
+    if (window.L || this._leafletLoading) return;
+    this._leafletLoading = true;
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(css);
+    const js = document.createElement('script');
+    js.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+    js.onerror = () => { this._leafletFailed = true; };
+    document.head.appendChild(js);
+  },
   _waitLeaflet(start) {
     if (window.L) return this._initLeaflet();
-    if (Date.now() - start >= (CONFIG.leaflet.timeoutMs || 8000)) {
-      console.warn('[ZXW] Leaflet CDN 加载超时，降级为 Canvas 2D 星图');
+    if (this._leafletFailed || Date.now() - start >= (CONFIG.leaflet.timeoutMs || 8000)) {
+      console.warn('[ZXW] Leaflet CDN 不可用，降级为 Canvas 2D 星图');
       return this._initLocal();
     }
+    this._ensureLeaflet();
     setTimeout(() => this._waitLeaflet(start), 200);
   },
 
